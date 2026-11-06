@@ -8,7 +8,7 @@
 :root{--ink:#1c2330;--mut:#5a6577;--line:#d9dfea;--bg:#f4f6fb;--card:#fff;--pri:#1f5fa8;--dark:#0f2f57;--ok:#1f7a4d;--warn:#b07400;--bad:#b3261e;--inp:#fffbe6}
 *{box-sizing:border-box}
 body{margin:0;font-family:'Segoe UI',Arial,sans-serif;color:var(--ink);background:var(--bg);font-size:15px;line-height:1.5}
-header{background:var(--dark);color:#fff;padding:14px 22px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+header{background:var(--dark);color:#fff;padding:12px 22px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between}
 header h1{margin:0;font-size:20px} header small{opacity:.8;display:block;font-size:12.5px}
 .btns{display:flex;flex-wrap:wrap;gap:8px}
 button,.btn{background:#fff;color:var(--dark);border:0;border-radius:6px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer}
@@ -28,10 +28,30 @@ input[type=number]{width:112px;text-align:right} input[type=text]{width:100%} se
 input.w{width:90px}
 .ctl{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:flex-end;margin:6px 0 14px;background:#eef3fb;border-radius:8px;padding:10px 12px}
 .ctl label{display:flex;flex-direction:column;font-size:12.5px;color:var(--mut);gap:2px;font-weight:600} .ctl label.chk{flex-direction:row;align-items:center;gap:6px;color:var(--ink)}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:8px 0 14px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);align-items:stretch;gap:10px;margin:8px 0 14px}
 .card{border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:#f7faff}
 .card b{display:block;font-size:22px;color:var(--dark);line-height:1.2} .card span{font-size:12.5px;color:var(--mut)}
 .card.big{background:#e8f1ff;border-color:#a9c4ec}
+.chart{background:#fcfcfb;border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 14px;break-inside:avoid}
+.chart h3{margin:0 0 4px;font-size:16px;color:var(--dark)} .chart p{margin:2px 0;font-size:13px;color:#3b475c} .chart .plot{margin:6px 0}
+.svgc{width:100%;height:auto;display:block} #rep .svgc{max-width:760px} .svgc .mk{cursor:pointer} .svgc .mk:hover{opacity:.82} .svgc .col{cursor:crosshair} .svgc .col:hover{fill:rgba(11,11,11,.06)}
+.lg2{display:flex;flex-wrap:wrap;gap:4px 16px;margin:6px 0;font-size:13px} .lgi{display:inline-flex;align-items:center;gap:6px;cursor:default} label.lgi{cursor:pointer}
+.lgi i{display:inline-block;width:12px;height:12px;border-radius:3px} .insight{background:#eef6ff;border-left:4px solid #2a78d6;padding:6px 10px;margin-top:6px;font-size:13.5px;border-radius:0 6px 6px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px} .mini{font-size:12.5px;font-weight:700;color:#52514e;margin:2px 0}
+.tip{white-space:pre-line;position:fixed;z-index:50;background:#0b0b0b;color:#fff;font-size:12.5px;padding:6px 9px;border-radius:6px;max-width:300px;pointer-events:none;line-height:1.35;box-shadow:0 2px 8px rgba(0,0,0,.3)} .tip[hidden]{display:none}
+@media (max-width:700px){.two{grid-template-columns:1fr}}
+@media (max-width:420px){.tabs button{padding:6px 5px!important} .tabs button b{font-size:11px!important} .tabs button span{font-size:10px!important}}
+.archs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:8px 0 2px}
+.archc{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:4px;background:#fbfcff;color:var(--ink);border:2px solid var(--line);border-radius:10px;padding:10px 12px;font-weight:400;cursor:pointer;position:relative}
+.archc:hover{border-color:#a9c4ec;background:#f2f7ff} .archc.on{border-color:var(--pri);background:#e8f1ff;box-shadow:0 0 0 2px #cfe0f8}
+.archc b{font-size:14px;color:var(--dark)} .archc span{font-size:12.5px;color:#3b475c;flex:1} .archc em{font-style:normal;font-size:15px;font-weight:700;color:var(--dark)} .archc em small{font-size:12px;font-weight:400;color:var(--mut)}
+.archc .best{font-style:normal;font-size:11px;font-weight:700;background:var(--ok);color:#fff;border-radius:10px;padding:0 8px}
+@media (max-width:900px){.archs{grid-template-columns:1fr 1fr}} @media (max-width:560px){.archs{grid-template-columns:1fr}}
+.card.wide{grid-column:span 2} .card.full{grid-column:1/-1} .card{display:flex;flex-direction:column}
+@media (max-width:900px){.cards{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.cards{grid-template-columns:1fr} .card.wide,.card.full{grid-column:auto}}
+.card em b{display:inline;font-size:inherit;color:inherit}
+.card em{display:block;font-style:normal;font-size:12px;color:#3b475c;margin-top:5px;line-height:1.4}
 .box{border-left:5px solid var(--warn);background:#fff7e0;padding:8px 12px;margin:10px 0;border-radius:0 6px 6px 0;font-size:14px}
 .box.ok{border-color:var(--ok);background:#eaf6ef} .box.bad{border-color:var(--bad);background:#fdecea} .box.info{border-color:var(--pri);background:#eaf1fc}
 .pill{display:inline-block;border-radius:20px;padding:1px 10px;font-size:12px;font-weight:700;color:#fff}
@@ -51,8 +71,22 @@ details{margin:6px 0} summary{cursor:pointer;font-weight:700;color:var(--pri)}
 .num{white-space:nowrap}
 .printonly{display:none}
 .tabs{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:6px 16px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
-.tabs button{background:#eef3fb;border:1px solid #c5d3ea;color:var(--dark)} .tabs button.on{background:var(--dark);color:#fff}
-body[data-tab=cfg] #rep{display:none} body[data-tab=rep] #cfg{display:none}
+.tabs{gap:8px!important} .tabs button{background:#eef3fb;border:1px solid #c5d3ea;color:var(--dark);display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:7px 14px;line-height:1.25} .tabs button b{font-size:14px} .tabs button span{font-size:11.5px;font-weight:400;opacity:.85} .tabs button.on{background:var(--dark);color:#fff;border-color:var(--dark)}
+.menu{position:relative} .menu-list{position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.25);min-width:270px;z-index:40;display:flex;flex-direction:column;overflow:hidden} .menu-list[hidden]{display:none}
+.menu-list button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;border-radius:0;background:#fff;color:var(--ink);padding:9px 14px;border-bottom:1px solid #eef1f6;font-weight:400} .menu-list button:last-child{border-bottom:0} .menu-list button b{font-size:13.5px;color:var(--dark)} .menu-list button span{font-size:12px;color:var(--mut)} .menu-list button:hover{background:#eef3fb}
+.pdfbox{background:#f3f9f5!important;border-color:#bfe0cb!important} .chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px} .chip{background:#fff;border:1px solid #bfe0cb;border-radius:14px;padding:2px 10px;font-size:12.5px}
+.bigbtn{background:var(--ok)!important;color:#fff!important;font-size:15px!important;padding:10px 18px!important} .pdfbox .ctl button:not(.bigbtn){background:#fff;border:1px solid #c5d3ea}
+.dg{display:grid;grid-template-columns:1fr auto 1.25fr auto 1fr auto 1.2fr;gap:6px;align-items:stretch;margin-top:6px}
+.dg .col{border:1px solid #a9c4ec;border-radius:10px;padding:10px 12px;background:#f4f8ff;display:flex;flex-direction:column;gap:2px;min-width:0}
+.dg .c2{background:#eaf2ff;border-color:#7fa9e6} .dg .c3{background:#eaf2ff;border-color:#7fa9e6} .dg .c4{background:#fff7e0;border-color:#d9b45a}
+.dg .col h3{margin:0;font-size:15px;color:var(--dark)} .dg .num{display:inline-block;background:var(--dark);color:#fff;border-radius:50%;width:22px;height:22px;text-align:center;line-height:22px;font-size:12px}
+.dg .it{border:1px solid #c5cddc;border-radius:7px;padding:5px 8px;margin:4px 0;font-size:13px;background:#fff;overflow-wrap:anywhere} .dg .it small{display:block;color:var(--mut);font-size:11.5px}
+.dg .pay,.payc{color:#b3261e;font-weight:700;font-size:12px} .payc{font-size:inherit} .dg .it .pay{display:block;margin-top:1px} .dg .foot{margin-top:auto;padding-top:6px;border-top:1px dashed #d8a0a0;font-size:12.5px}
+.dg .arrow{display:flex;align-items:center;justify-content:center;font-size:22px;color:#5a6577}
+@media (max-width:1000px){.dg{grid-template-columns:1fr;gap:2px} .dg .arrow{transform:rotate(90deg);padding:0;height:26px}}
+.guide{background:#fff9e6;border:1px solid #ecd9a0;border-radius:10px;padding:12px 16px;margin:0 0 14px} .guide ol{margin:6px 0 6px 20px;padding:0} .guide li{margin:3px 0} .guide button{background:var(--dark);color:#fff;margin-top:6px} .guide[hidden]{display:none}
+body:not([data-tab=viz]) #guide{display:none}
+body:not([data-tab=viz]) #viz{display:none} body:not([data-tab=rep]) #rep{display:none} body[data-tab=cfg] #repctl{display:none} body:not([data-tab=cfg]) #cfg{display:none}
 .rhead h1{margin:0;font-size:24px;color:var(--dark)} .rhead .sub{color:var(--mut);margin:2px 0 12px;font-size:13px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px;margin:6px 0 10px}
 .tile{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fbfcff;display:flex;flex-direction:column;gap:4px}
@@ -63,10 +97,24 @@ body[data-tab=cfg] #rep{display:none} body[data-tab=rep] #cfg{display:none}
 .mdl{background:#fff;border-radius:12px;max-width:1020px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.35)}
 .mh{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;border-radius:12px 12px 0 0;z-index:2} .mh b{font-size:17px;color:var(--dark)}
 .mh button{background:var(--dark);color:#fff} .mb{padding:14px 18px 22px} body.modal-open{overflow:hidden}
-@media (max-width:700px){.prov dl{grid-template-columns:1fr}}
+html,body{max-width:100%;overflow-x:hidden}
+.ctl label{min-width:0;max-width:100%} .ctl select{max-width:100%;text-overflow:ellipsis} select{max-width:100%}
+.fields label{flex-wrap:wrap}
+@media (max-width:700px){
+ body{font-size:14px} header{padding:10px 12px} header h1{font-size:17px} header small{font-size:11.5px} .btns{gap:6px} .btns button{padding:7px 10px;font-size:12.5px} .menu-list{position:fixed;left:8px;right:8px;top:120px;min-width:0;width:auto} .tabs{padding:6px 8px;gap:6px!important} .tabs button{flex:1 1 0;min-width:0;padding:6px 8px} .tabs button b{font-size:12.5px;white-space:nowrap} .tabs button span{font-size:10.5px}
+ .tabs{padding:6px 10px} main{padding:10px 8px 40px} section{padding:12px 12px;margin-bottom:12px}
+ .ctl{flex-direction:column;align-items:stretch;gap:10px} .ctl label{width:100%} .ctl select,.ctl input[type=number],.ctl input[type=text]{width:100%}
+ .ctl label.chk{align-items:flex-start}
+ .fields{grid-template-columns:1fr} .fields label{align-items:flex-start} .fields input{width:100%}
+ .prov dl{grid-template-columns:1fr} .prov dl>*{min-width:0;overflow-wrap:anywhere} .prov table{min-width:0!important;width:100%!important} .prov .b{padding:8px 10px}
+ .tiles{grid-template-columns:1fr} .card b{font-size:18px}
+ .ov{padding:6px} .mb{padding:10px} .mh{padding:10px 12px} .mh b{font-size:15px}
+ table{font-size:12px;display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch} th,td{padding:4px 5px} input[type=number]{width:100%;min-width:70px} input.w{width:84px}
+ .legend{gap:2px 10px}
+}
 @media print{
  @page{size:Letter;margin:14mm 12mm}
- #cfg,.tabs,.ov{display:none!important} body[data-tab] #rep{display:block!important}
+ #cfg,#repctl,#viz,.tabs,.ov,.tip,#guide,.menu{display:none!important} body[data-tab] #rep{display:block!important}
  body{background:#fff;font-size:11.5px} header,.noprint,.btns{display:none!important} .printonly{display:block}
  main{max-width:none;padding:0} section{border:0;border-radius:0;padding:0;margin:0 0 14px;break-inside:auto}
  h2{break-after:avoid;border-bottom:2px solid var(--pri);padding-bottom:2px} .prov,.card,table,.box{break-inside:avoid}
@@ -82,18 +130,33 @@ body[data-tab=cfg] #rep{display:none} body[data-tab=rep] #cfg{display:none}
 </head>
 <body>
 <header>
- <div><h1>Calculadora de costos XiGOS</h1><small>Precios consultados el 2026-11-06 · todo es editable: los cambios se guardan en este navegador · no envía datos a ningún sitio · formato: punto para miles y coma para decimales (US$ 1.382 = mil trescientos ochenta y dos)</small></div>
+ <div class="brand"><h1>Calculadora de costos XiGOS</h1><small>Cuánto cuesta mantener XiGOS, en dólares y en pesos · precios consultados el 6 de noviembre de 2026</small></div>
  <div class="btns noprint">
-  <button class="pri" id="btn-pdf" title="Imprime solo lo que usted marcó «En el reporte». Se abre el cuadro de impresión: elija «Guardar como PDF»">⬇ Descargar PDF del reporte</button>
-  <button id="btn-csv">⬇ Tabla en Excel (CSV)</button>
-  <button id="btn-save">💾 Guardar configuración</button>
-  <button id="btn-load">📂 Cargar</button>
-  <button class="ghost" id="btn-reset">↺ Restaurar valores originales</button>
+  <button class="pri" id="btn-pdf" title="Imprime solo lo que usted marcó «En el reporte». Se abre el cuadro de impresión: elija «Guardar como PDF»">⬇ Descargar PDF</button>
+  <div class="menu"><button id="btn-more" aria-haspopup="true" aria-expanded="false">⋯ Más opciones</button>
+   <div class="menu-list" id="more-list" hidden>
+    <button id="btn-csv"><b>Tabla en Excel (CSV)</b><span>Baja la proyección por clientes</span></button>
+    <button id="btn-save"><b>Guardar mi configuración</b><span>Descarga un archivo con sus cambios</span></button>
+    <button id="btn-load"><b>Cargar una configuración</b><span>Abre un archivo guardado antes</span></button>
+    <button id="btn-guide"><b>Ver la guía de uso</b><span>Cómo usar esta calculadora</span></button>
+    <button id="btn-reset"><b>Restaurar valores originales</b><span>Borra sus cambios</span></button>
+   </div></div>
   <input type="file" id="file-load" accept=".json" style="display:none">
  </div>
 </header>
-<div class="tabs"><button data-tab="cfg" class="on">1. Configurar</button><button data-tab="rep">2. Vista previa del reporte</button><span class="small">El PDF contiene solo lo que marque «En el reporte».</span></div>
-<main><div id="cfg"></div><div id="rep"></div></main>
+<div class="tabs" role="tablist">
+ <button data-tab="viz" class="on" role="tab"><b>1 · Resumen</b><span>Cifras y gráficas</span></button>
+ <button data-tab="cfg" role="tab"><b>2 · Configuración</b><span>Precios y qué va al PDF</span></button>
+</div>
+<main><div id="guide" class="guide" hidden><b>👋 ¿Cómo usar esta calculadora?</b>
+ <ol><li><b>Escenario:</b> escriba aquí abajo cuántos clientes quiere simular y elija su tamaño de uso.</li>
+ <li><b>Pestaña 1 · Resumen:</b> vea cuánto cuesta al mes y las gráficas. Pase el cursor (o toque) sobre ellas para ver el detalle.</li>
+ <li><b>Pestaña 2 · Configuración:</b> abra cada ficha para leer qué es cada proveedor y cambiar precios o supuestos. Marque «En el reporte» en lo que quiera que salga en el PDF.</li>
+ <li><b>Al final del Resumen:</b> pulse <b>«Imprimir o guardar como PDF»</b>.</li></ol>
+ <p class="small">Es una estimación: muchos valores son supuestos que usted puede cambiar. Lo que escriba se guarda solo en este navegador.</p>
+ <button id="guide-close">Entendido, ocultar la guía</button></div>
+<div id="repctl"></div><div id="viz"></div><div id="rep"></div><div id="cfg"></div></main>
+<div id="tip" class="tip" hidden></div>
 <div id="modal" class="ov" hidden><div class="mdl" role="dialog" aria-modal="true"><div class="mh"><b id="mt"></b><button id="mx" title="Cerrar (Esc)">✕ Cerrar</button></div><div class="mb" id="mbody"></div></div></div>
 
 <script>
@@ -151,10 +214,10 @@ const DEF = {
  gps: [ {name:'Eje Satelital',share:100,equip:0,install:0,sim:0,plat:0,other:0},
         {name:'Otro proveedor GPS (opcional)',share:0,equip:0,install:0,sim:0,plat:0,other:0},
         {name:'Otro proveedor GPS 2 (opcional)',share:0,equip:0,install:0,sim:0,plat:0,other:0} ],
- ui: { N:10, prof:1, arch:1, wa:0, tiles:0, gps:0, gps_amort:1, analyst:0, sd_on:0, scales:[1,5,10,25,50,100,250,500,1000] },
+ ui: { N:1, prof:1, arch:1, wa:0, tiles:0, gps:0, gps_amort:1, analyst:0, sd_on:0, unit:'usd', scales:[1,5,10,25,50,100,250,500,1000] },
  // qué secciones salen en el reporte impreso (1 = incluir)
- rep: { resumen:1, glosario:0, diagrama:1, traffic:1, ors:1, owm:1, eje:1, osm:0, mail:0, push:0, wa:0, ows:0, wazeoff:0, apify:0, inrix:0, gmaps:0, priv:0, gov:0,
-        personal:1, aws:1, containers:1, conexiones:0, awsrates:0, proy:1, comp:1, precios:1, supuestos:0, pendientes:1 }
+ rep: { resumen:1, glosario:0, diagrama:1, traffic:1, ors:1, owm:1, eje:1, osm:0, mail:0, push:0, wa:0, ows:0, wazeoff:0, apify:0, inrix:0, gmaps:0, gov:0,
+        personal:1, graficas:1, gr_desglose:1, gr_crecimiento:1, gr_promedio:1, gr_vehiculo:1, gr_sens:1, gr_aws:0, gr_trafico:0, gr_analista:1, aws:1, containers:1, conexiones:0, awsrates:0, proy:1, comp:1, supuestos:0, pendientes:1 }
 };
 const clone = o => JSON.parse(JSON.stringify(o));
 
@@ -387,8 +450,6 @@ const PROVS_OPT = [
   what:'Mapas, rutas y geocodificación de Google.',
   use:'<b>No requerido hoy:</b> solo se integraría si un cliente lo exige expresamente.',
   how:'No se consultó su tarifa en este estudio.',f:[['g.gmaps_usd','Su costo mensual estimado (USD) — escríbalo si lo requiere']],ex:()=>'Hasta tener tarifa: <b>PENDIENTE</b>.',src:'(no consultado)',conf:'PENDIENTE',risk:'—',extra:'gmaps'},
- {id:'priv',st:'no',name:'Fuentes privadas del cliente: Rutero PMI, Mitra, Kronox',
-  what:'Sistemas propios del cliente o de Fortox (viajes planeados, operación, GPS de flota).',use:'<b>No requeridos hoy:</b> sin conector ni acceso entregado. Si se conectan, sus datos serían privados del cliente.',how:'Sin tarifa pública; dependen de lo que el cliente tenga contratado.',f:[],ex:()=>'Costo: <b>PENDIENTE</b>.',src:'(sin documentación)',conf:'PENDIENTE',risk:'Falta acceso/credenciales del cliente.'},
  {id:'gov',st:'no',name:'Datos oficiales: datos.gov.co, INVIAS, IDEAM, UNGRD, Policía',
   what:'Portales del Estado con datos abiertos.',use:'<b>No requeridos hoy:</b> no existe un conjunto de datos de cierres viales en datos.gov.co; INVIAS e IDEAM no ofrecen API (solo PDF o páginas).',how:'Gratis, pero sin servicio utilizable hoy.',f:[],ex:()=>'Costo de API: <b>US$ 0</b>, sin servicio disponible.',src:'(ver docs del proyecto)',conf:'ALTA (que no hay API)',risk:'Habría que autorizar «scraping» o conseguir acceso oficial.'},
 ];
@@ -426,10 +487,10 @@ const FORMAS=`<table><tr><th class="l">Opción</th><th class="l">Cómo es</th><t
  <tr><td class="l"><b>A · Lightsail</b></td><td class="l">Un servidor «todo incluido» de AWS donde corren todas las cajas juntas (incluida la base de datos).</td><td class="l">La más barata; precio fijo; la transferencia está incluida.</td><td class="l">Si el servidor falla, todo se cae hasta restaurar. Todo lo administra su equipo.</td></tr>
  <tr><td class="l"><b>B · EC2 + RDS</b></td><td class="l">Servidores EC2 para los programas y una base de datos administrada por AWS (RDS) compartida.</td><td class="l">AWS cuida la base de datos (respaldos, parches).</td><td class="l">Más cara (RAM más costosa + base aparte + balanceador).</td></tr>
  <tr><td class="l"><b>C · Alta disponibilidad</b></td><td class="l">Como B pero duplicada en dos zonas de AWS, con base de datos de respaldo en vivo.</td><td class="l">Sigue funcionando si una zona falla.</td><td class="l">Cuesta el doble o más que B.</td></tr>
- <tr><td class="l"><b>D · Fargate</b></td><td class="l">AWS ejecuta cada contenedor por usted (sin administrar servidores) + base RDS.</td><td class="l">Cero administración de servidores; cada caja se cobra exacta.</td><td class="l">Cada caja siempre encendida sale mucho más cara que en un servidor compartido.</td></tr></table>`;
+ <tr><td class="l"><b>D · Fargate</b></td><td class="l">AWS ejecuta cada contenedor por el equipo XiGOS (sin que el equipo administre servidores) + base RDS.</td><td class="l">Cero administración de servidores; cada caja se cobra exacta.</td><td class="l">Cada caja siempre encendida sale mucho más cara que en un servidor compartido.</td></tr></table>`;
 
 const GLOSARIO=`<dl class="gl">
-  <dt>Cliente</dt><dd>Una empresa que usa XiGOS (hoy: Coltabaco). Cada cliente recibe su propio «sistema», aislado de los demás.</dd>
+  <dt>Cliente</dt><dd>Una empresa que usa XiGOS (hoy: el cliente actual, PMI). Cada cliente recibe su propio «sistema», aislado de los demás.</dd>
   <dt>Instancia</dt><dd>El sistema completo de un cliente: sus pantallas, su programa y su base de datos. Es como darle a cada cliente su propia «oficina» en el mismo edificio.</dd>
   <dt>Contenedor</dt><dd>Una «caja» que guarda un programa con todo lo que necesita para funcionar. Cada instancia tiene varias cajas (panel, cerebro, tareas, base de datos). Cada caja usa memoria y procesador, y por eso cuesta dinero mantenerla encendida.</dd>
   <dt>Servidor (la «máquina» de AWS)</dt><dd>El computador en la nube donde viven las cajas. Se alquila por hora o por mes; el precio depende de cuánta memoria (RAM) tenga.</dd>
@@ -439,11 +500,11 @@ const GLOSARIO=`<dl class="gl">
   <dt>Principal y respaldo</dt><dd>TomTom y HERE hacen el mismo trabajo. Uno es el principal y el otro el respaldo: si uno falla o no ve un incidente, el otro lo cubre.</dd>
   <dt>Petición / transacción</dt><dd>Cada vez que XiGOS le hace una pregunta a un proveedor. Los proveedores cobran por cada 1.000 preguntas.</dd>
   <dt>Capa gratuita</dt><dd>Cantidad de preguntas al mes que el proveedor regala. Pasado ese límite, empieza a cobrar.</dd>
+  <dt>Costo por vehículo (promedio)</dt><dd>Es el total mensual dividido entre los vehículos. <b>No es lo que cuesta cada vehículo</b>: el vehículo casi no cuesta (solo guardar sus posiciones). Baja cuando hay más vehículos porque los costos fijos se reparten entre más, y sube cuando hay pocos.</dd>
   <dt>Dispositivo GPS</dt><dd>El equipo instalado en un vehículo que reporta dónde está. Lo contrata el cliente con su proveedor GPS.</dd>
   <dt>Costo duro</dt><dd>Lo que hay que pagar a proveedores y a AWS (servidores, datos, correo). Es dinero real que sale.</dd>
   <dt>Soporte y DevOps</dt><dd>Horas de personas que atienden a los clientes y mantienen el sistema. <b>Por ahora NO se cuentan en el costo</b>; se pueden activar en la ficha «Personal».</dd>
   <dt>Analista de inteligencia</dt><dd>Persona que aprueba y controla las rutas y los informes de los clientes. Se puede activar con un sueldo mensual y entra al costo promedio.</dd>
-  <dt>Margen</dt><dd>Del precio de venta, la parte que queda después de pagar los costos. Margen 50 % = el precio es el doble del costo.</dd>
   <dt>Región São Paulo</dt><dd>El centro de datos de AWS más cercano a Colombia con precios oficiales verificados.</dd></dl>
  <div class="box info"><b>Idea central:</b> los vehículos GPS casi no cuestan a XiGOS. Lo que cuesta es (1) <b>cada cliente nuevo</b>, porque necesita su propio sistema funcionando, (2) <b>cuántas zonas del mapa</b> se vigilan, porque los proveedores cobran por zona consultada, y (3) <b>las personas</b> que operan el servicio (por ahora solo el analista de inteligencia, si se activa).</div>`;
 
@@ -472,10 +533,10 @@ const PENDIENTES=`<table><tr><th class="l">Dato faltante</th><th class="l">Por q
  <tr><td class="l">Términos de HERE y TomTom para rastreo de activos y servicio a varios clientes</td><td class="l">HERE podría pasar a contrato (precio por cotización)</td><td class="l">Preguntas por escrito a cada proveedor</td></tr>
  <tr><td class="l">Licencias comerciales de Open-Meteo, OpenRouteService y OpenWeatherMap (plan gratis)</td><td class="l">Hoy se asumen gratis</td><td class="l">Consultar a cada proveedor</td></tr>
  <tr><td class="l">Intermediario (BSP) de WhatsApp, Microsoft 365, dominio, soporte AWS, Savings Plans</td><td class="l">Costos fijos menores</td><td class="l">Cotizar</td></tr>
- <tr><td class="l">Memoria real de cada contenedor y tamaño real de las tablas</td><td class="l">Es el supuesto que más mueve el costo de infraestructura</td><td class="l">Construir las imágenes y medir con <code>docker stats</code>; consultar tamaños en la base de Coltabaco</td></tr>
+ <tr><td class="l">Memoria real de cada contenedor y tamaño real de las tablas</td><td class="l">Es el supuesto que más mueve el costo de infraestructura</td><td class="l">Construir las imágenes y medir con <code>docker stats</code>; consultar tamaños en la base del cliente actual (PMI)</td></tr>
  <tr><td class="l">Cuántos vehículos reales tiene cada cliente y cada cuánto reportan</td><td class="l">Define almacenamiento y consultas</td><td class="l">Dato de los clientes; prueba con vehículos en movimiento</td></tr>
  <tr><td class="l">Impuestos (IVA, retenciones) de servicios del exterior</td><td class="l">Costo final en pesos</td><td class="l">Contador</td></tr></table>
- <div class="box ok"><b>Recomendación para empezar (hasta ~10 clientes; previsión de 4 en 12 meses):</b> alojamiento A (un Lightsail de São Paulo), respaldos a S3 y cuota de alta. Pasar a B/C/D solo por requisito de disponibilidad, y antes medir la memoria real de los contenedores.</div>`;
+ <div class="box ok"><b>Recomendación para empezar (hasta ~10 clientes; previsión de 4 en 12 meses):</b> alojamiento A (un Lightsail de São Paulo), respaldos a S3. Pasar a B/C/D solo por requisito de disponibilidad, y antes medir la memoria real de los contenedores.</div>`;
 const CONN_RULES=()=>`<ul>
  <li><b>Entrada a AWS (lo que llega):</b> gratis.</li>
  <li><b>Salida a Internet:</b> US$ ${S.t.dto} por GB en B, C y D (el primer GB del mes es gratis). En Lightsail (A) viene incluida (hasta 4 TB en el plan de 4 GB).</li>
@@ -491,7 +552,9 @@ function ctrTables(){
  <h3>Contenedores del hub (uno solo para toda la plataforma)</h3><div class="scroll"><table>${head}${S.ctr.filter(c=>c.scope==='hub').map(ctrRow).join('')}</table></div>`;
 }
 function scaleInput(){ return `<label style="display:flex;flex-direction:column;gap:2px;font-size:12.5px;color:var(--mut);font-weight:600">Cantidades de clientes a proyectar (separadas por coma, máx. 12)<input type="text" id="scales-in" value="${S.ui.scales.join(', ')}" style="width:100%;max-width:520px"></label>`; }
-const SCEN=()=>`<div class="ctl"><label>Número de clientes<input type="number" min="1" step="1" data-b="ui.N"></label><label>Tamaño de uso${sel('ui.prof',[[0,'Bajo (5 vehículos)'],[1,'Medio (20 vehículos)'],[2,'Alto (60 vehículos)']])}</label><label>Alojamiento en AWS${sel('ui.arch',[[1,ARCH[1]],[2,ARCH[2]],[3,ARCH[3]],[4,ARCH[4]]])}</label></div>`;
+const SCEN=(o={})=>{ const on=k=>o[k]!==0;
+ return `<div class="ctl">${on('N')?'<label>Número de clientes<input type="number" min="1" step="1" data-b="ui.N"></label>':''}${on('prof')?`<label>Tamaño de uso${sel('ui.prof',[[0,'Bajo (5 vehículos)'],[1,'Medio (20 vehículos)'],[2,'Alto (60 vehículos)']])}</label>`:''}${on('arch')?`<label>Alojamiento en AWS${sel('ui.arch',[[1,ARCH[1]],[2,ARCH[2]],[3,ARCH[3]],[4,ARCH[4]]])}</label>`:''}${on('unit')?`<label>Mostrar las gráficas en<select data-b="ui.unit"><option value="usd" ${S.ui.unit==='usd'?'selected':''}>Dólares (USD)</option><option value="cop" ${S.ui.unit==='cop'?'selected':''}>Pesos (COP)</option></select></label>`:''}</div>${o.note?`<p class="small">${o.note}</p>`:''}`; };
+const NOAWS='Los valores de esta ficha <b>no cambian según la forma de alojar en AWS</b>; solo dependen del número de clientes y del tamaño de uso.';
 
 /* ----------------------------- Fichas (tiles) y ventanas modales ----------------------------- */
 const TILES=[
@@ -501,12 +564,12 @@ const TILES=[
   {id:'aws',t:'Alojamiento y contenedores',d:'Cuántos contenedores hay, qué hace cada uno, cuánto cuesta mantenerlo y las 4 formas de alojarlo en AWS.',st:'req'},
   {id:'conexiones',t:'Conexiones entre contenedores',d:'Qué conversa con qué, cuántos datos viajan y qué cobra AWS por ello.',st:'req'},
   {id:'awsrates',t:'Tarifas de AWS',d:'Precio de cada servicio de AWS en São Paulo y para qué sirve.',st:'req'}]},
- {g:'Servicios que hoy NO se necesitan (opcionales)',items:['ows','wazeoff','apify','inrix','gmaps','priv','gov'].map(id=>({id,t:PBY[id].name,d:PBY[id].what,st:PBY[id].st}))},
+ {g:'Servicios que hoy NO se necesitan (opcionales)',items:['ows','wazeoff','apify','inrix','gmaps','gov'].map(id=>({id,t:PBY[id].name,d:PBY[id].what,st:PBY[id].st}))},
  {g:'Modelo y secciones del reporte',items:[
   {id:'resumen',t:'Resumen de costos',d:'Totales, costo duro, por cliente, por vehículo y por año.',nomodal:1},
-  {id:'personal',t:'Personal: analista de inteligencia',d:'Cargo que aprueba y controla rutas y reportes. Se habilita con un sueldo mensual y cambia el costo promedio por cliente. Soporte y DevOps no se cuentan por ahora.'},
+  {id:'graficas',t:'Gráficas',d:'Gráficas del resumen interactivo: dónde se va el dinero, crecimiento, promedio por cliente, sensibilidad y más. Elija cuáles salen en el PDF y en qué moneda.'},
+  {id:'personal',t:'Personal: analista de inteligencia',d:'Cargo que aprueba y controla rutas y reportes. Se habilita con un sueldo mensual y cambia el costo promedio por cliente. Soporte y DevOps no se cuentan por ahora. Si no está activado, esta sección no sale en el reporte.'},
   {id:'proy',t:'Proyección por número de clientes',d:'Tabla de costos para distintas cantidades de clientes y comparaciones.',st:'req'},
-  {id:'precios',t:'Precios y márgenes',d:'Precio mínimo para no perder dinero según el margen deseado.',st:'req'},
   {id:'supuestos',t:'Supuestos y tamaños de uso',d:'Todo lo no verificado: memoria, celdas, tamaños de uso… y el tipo de cambio.',st:'req'},
   {id:'diagrama',t:'Diagrama de cómo se conecta todo',d:'Dibujo simple de quién le pregunta a quién y qué se cobra.',nomodal:1},
   {id:'glosario',t:'Glosario sin tecnicismos',d:'Qué significa cada palabra técnica.',nomodal:1},
@@ -527,10 +590,10 @@ const MODALS={
    <label>% de consultas que también se hacen al respaldo<input type="number" min="0" max="100" step="5" data-b="g.backup_pct"></label>
    <label>Minutos entre consultas por zona<input type="number" min="5" step="5" data-b="g.interval_traffic"></label></div>
   <p class="small"><b>100 %</b> = hoy: el hub consulta a los dos cada vez (se pagan los dos completos). <b>0 %</b> = el respaldo no se consulta nunca. <b>20 %</b> = solo 1 de cada 5 veces. Menos consultas al respaldo bajan el costo, pero la confirmación entre proveedores se reduce.</p>
-  <div id="m-traffic"></div>${SCEN()}${provCard(PBY.tomtom)}${provCard(PBY.here)}`}),
- aws:()=>({title:'Alojamiento y contenedores en AWS',html:`${repChk('aws','Incluir en el reporte: formas de alojar y cuenta de AWS')}${repChk('containers','Incluir en el reporte: costo de cada contenedor')}${SCEN()}
+  <div id="m-traffic"></div>${SCEN({arch:0,unit:0,note:NOAWS})}${provCard(PBY.tomtom)}${provCard(PBY.here)}`}),
+ aws:()=>({title:'Alojamiento y contenedores en AWS',html:`${repChk('aws','Incluir en el reporte: formas de alojar y cuenta de AWS')}${repChk('containers','Incluir en el reporte: costo de cada contenedor')}${SCEN({unit:0})}
   <h3>Las cuatro formas de alojar (en palabras simples)</h3>${FORMAS}<div id="m-aws"></div>${ctrTables()}<div id="m-containers"></div>`}),
- conexiones:()=>({title:'Conexiones entre contenedores y con el exterior',html:`${repChk('conexiones')}${SCEN()}<div id="m-conn"></div>
+ conexiones:()=>({title:'Conexiones entre contenedores y con el exterior',html:`${repChk('conexiones')}${SCEN({unit:0})}<div id="m-conn"></div>
   <p class="small">Los GB por cliente son <b>supuestos</b> (editables).</p>
   <div class="scroll"><table><tr><th class="l">Conexión</th><th class="l">¿Qué viaja?</th><th class="l">Tipo</th><th>GB por cliente al mes</th></tr>
   ${S.conn.map((c,i)=>`<tr><td class="l">${esc(c.name)}</td><td class="l">${esc(c.what)}</td><td class="l">${{egress:'Sale a Internet (se cobra en B, C, D; incluida en A)',nat:'Sale a Internet; en C y D además pasa por la «puerta de salida» (NAT)',int:'Interna (gratis dentro de la misma zona)'}[c.net]}</td><td>${inp('conn.'+i+'.gb',0.01,'w')}</td></tr>`).join('')}</table></div>
@@ -538,16 +601,15 @@ const MODALS={
  awsrates:()=>({title:'Tarifas de AWS en São Paulo',html:`${repChk('awsrates')}<div class="scroll"><table><tr><th class="l">Servicio AWS</th><th class="l">¿Para qué sirve en XiGOS?</th><th class="l">¿Cómo cobra?</th><th>Precio (USD)</th></tr>${awsTable()}</table></div>
   <p class="src">Fuente: listas oficiales de precios <code>pricing.us-east-1.amazonaws.com/offers/v1.0/aws/&lt;servicio&gt;/current/sa-east-1/index.json</code> (EC2 y VPC 2026-11-05; RDS 2026-10-29; S3, CloudWatch y SES 2026-11-04; Lightsail 2026-09-15; ECS 2026-10-19; ECR 2026-09-11). Confianza ALTA.</p>
   <div class="box">No incluido: soporte de AWS, Savings Plans (descuentos por compromiso), almacenamiento de PDF en Fargate (EFS o S3) y la licencia de Microsoft 365.</div>`}),
- proy:()=>({title:'Proyección por número de clientes',html:`${repChk('proy','Incluir en el reporte: tabla de proyección')}${repChk('comp','Incluir en el reporte: comparaciones de alojamiento y tamaños de uso')}${SCEN()}<div class="ctl">${scaleInput()}</div><div id="m-proj"></div>`}),
- precios:()=>({title:'Precios y márgenes',html:`${repChk('precios')}${SCEN()}<div class="fields"><label>Comisión de cobro (fracción del precio)${inp('g.pay_fee',0.01)}</label><label>IVA (fracción)${inp('g.iva',0.01)}</label></div><div id="m-price"></div>`}),
+ proy:()=>({title:'Proyección por número de clientes',html:`${repChk('proy','Incluir en el reporte: tabla de proyección')}${repChk('comp','Incluir en el reporte: comparaciones de alojamiento y tamaños de uso')}${SCEN({unit:0})}<div class="ctl">${scaleInput()}</div><div id="m-proj"></div>`}),
  supuestos:()=>({title:'Supuestos, tamaños de uso y tipo de cambio',html:`${repChk('supuestos')}<p class="lead">Estas cifras NO son datos verificados: son estimaciones razonables. Si consigue el dato real, escríbalo y todo se recalcula.</p>
   <div class="scroll"><table><tr><th class="l">Supuesto</th><th class="l">Por qué importa</th><th>Valor</th></tr>${SUPS.map(([p,l,w])=>`<tr><td class="l">${l}</td><td class="l">${w}</td><td>${inp(p)}</td></tr>`).join('')}</table></div>
   <h3>Cómo se mide cada tamaño de uso (por cliente)</h3><div class="scroll"><table><tr><th class="l">Dato</th><th>Bajo</th><th>Medio</th><th>Alto</th></tr>
   ${PROFROWS.map(([k,l])=>`<tr><td class="l">${l}</td>${[0,1,2].map(i=>`<td>${inp('p.'+k+'.'+i,'any','w')}</td>`).join('')}</tr>`).join('')}</table></div>
   <h3>Tipo de cambio</h3><div class="fields"><label>Pesos por dólar (TRM 2026-11-06, datos.gov.co)${inp('t.trm')}</label><label>Dólares por euro (BCE 2026-11-06)${inp('t.eurusd')}</label></div>`})
 };
-for(const id of ['ors','owm','eje','osm','mail','push','wa','ows','wazeoff','apify','inrix','gmaps','priv','gov']){
- MODALS[id]=()=>({title:PBY[id].name,html:`${repChk(id)}${SCEN()}${provCard(PBY[id])}`});
+for(const id of ['ors','owm','eje','osm','mail','push','wa','ows','wazeoff','apify','inrix','gmaps','gov']){
+ MODALS[id]=()=>({title:PBY[id].name,html:`${repChk(id)}${SCEN({arch:0,unit:0,note:NOAWS})}${provCard(PBY[id])}`});
 }
 function gpsCalc(devices){ const r={n:0,equip:0,install:0,sim:0,plat:0,other:0}; for(const gp of S.gps){ const n=devices*gp.share/100; r.n+=n; r.equip+=n*gp.equip; r.install+=n*gp.install; r.sim+=n*gp.sim; r.plat+=n*gp.plat; r.other+=n*gp.other; } r.amort=r.equip/S.g.gps_life; return r; }
 function gpsTable(){
@@ -565,7 +627,7 @@ function gpsTable(){
  ${row('TOTAL GPS',once,mo,'Primer año (único + anual): '+usd(once+mo*12,0),1)}</table>
  <p class="small">Por vehículo: pago único ${usd(o.devices?once/o.devices:0)} y ${usd(o.devices?mo/o.devices:0)} al mes (${usd(o.devices?mo*12/o.devices:0)} al año).</p>`;
 }
-MODALS.eje=()=>({title:'GPS: proveedores, equipos, SIM y plataforma',html:`${repChk('eje','Incluir en el reporte: GPS y sus costos')}${SCEN()}
+MODALS.eje=()=>({title:'GPS: proveedores, equipos, SIM y plataforma',html:`${repChk('eje','Incluir en el reporte: GPS y sus costos')}${SCEN({arch:0,unit:0,note:NOAWS})}
  <div class="box info">Normalmente el equipo GPS, la SIM de datos y la plataforma de rastreo los paga el <b>cliente</b> a su proveedor (Eje Satelital). Active estos costos solo si Fortox los vende, los financia o quiere compararlos. <b>No hay precios públicos:</b> escriba las cotizaciones cuando las tenga. Referencia de equipo: Teltonika FMB920 ≈ US$ 69–73 en revendedores (baja confianza, no es tarifa oficial).</div>
  <div class="ctl">${chk('ui.gps','<b>Incluir los costos de GPS en el cálculo</b>')}${chk('ui.gps_amort','Repartir el costo del equipo en su vida útil y sumarlo al mensual')}<label>Vida útil del equipo (meses)<input type="number" min="1" step="1" data-b="g.gps_life" class="w"></label></div>
  <h3>Proveedores o planes de GPS (costos POR EQUIPO)</h3><div class="scroll"><table><tr><th class="l">Proveedor / plan</th><th>% de los vehículos</th><th>Equipo (USD, pago único)</th><th>Instalación (USD, único)</th><th>SIM / datos (USD al mes)</th><th>Plataforma GPS (USD al mes)</th><th>Otros (USD al mes)</th></tr>
@@ -587,7 +649,7 @@ function staffTable(){
  <table><tr><th class="l">Clientes</th><th>Analistas</th><th>Costo del analista USD/mes</th><th>Costo por cliente al mes SIN analista</th><th>… CON analista</th><th>Aumento</th><th>Por cliente al año CON analista</th></tr>${scal}</table>
  <p class="small">A más clientes, el sueldo se reparte entre más y el efecto por cliente baja (mientras no se contraten más analistas).</p>`;
 }
-MODALS.personal=()=>({title:'Personal: analista de inteligencia',html:`${repChk('personal','Incluir en el reporte: personal')}${SCEN()}
+MODALS.personal=()=>({title:'Personal: analista de inteligencia',html:`${repChk('personal','Incluir en el reporte: personal')}${SCEN({unit:0})}
  <div class="box info"><b>Analista de inteligencia:</b> persona que aprueba y controla las rutas y los informes de los clientes antes de que salgan. Cuando lo habilita, su sueldo se suma al costo mensual y cambia el costo promedio por cliente. <b>Soporte técnico y DevOps no se cuentan por ahora.</b></div>
  <div class="ctl">${chk('ui.analyst','<b>Incluir al analista de inteligencia en el cálculo</b>')}</div>
  <div class="fields"><label>Sueldo mensual por analista (COP)${inp('g.analyst_salary_cop',100000)}</label>
@@ -599,6 +661,9 @@ MODALS.personal=()=>({title:'Personal: analista de inteligencia',html:`${repChk(
  <div class="fields"><label>Tarifa por hora (USD)${inp('g.labor_rate')}</label><label>Horas fijas de operación al mes${inp('g.devops_base_h')}</label><label>Horas de operación extra por cliente${inp('g.devops_h_client',0.05)}</label></div>
  <p class="small">Las horas de soporte por cliente y de instalación están en «Supuestos y tamaños de uso».</p>
  <h3>Resultado</h3><div id="m-staff"></div>`});
+MODALS.graficas=()=>({title:'Gráficas del reporte',html:`${repChk('graficas','Incluir las gráficas en el reporte impreso')}${SCEN({N:0,prof:0,arch:0})}
+ <p class="small">Marque cuáles gráficas salen en el PDF. En la pestaña «Resumen interactivo» siempre se ven todas.</p>
+ ${CH.map(c=>`<label class="chk repchk" style="display:flex;align-items:flex-start;margin:6px 0"><input type="checkbox" data-b="rep.gr_${c.id}" ${bget('rep.gr_'+c.id)?'checked':''}> <span><b>${c.title}</b><br><span class="small">${c.what}${c.cond?' (solo aparece si el analista está activado)':''}</span></span></label>`).join('')}`});
 let curModal=null;
 function openModal(id){ const m=MODALS[id]; if(!m) return; const x=m(); curModal=id; document.getElementById('mt').textContent=x.title; document.getElementById('mbody').innerHTML=x.html;
  document.getElementById('modal').hidden=false; document.body.classList.add('modal-open'); document.getElementById('mbody').scrollTop=0; update(); }
@@ -606,15 +671,17 @@ function closeModal(){ curModal=null; document.getElementById('modal').hidden=tr
 
 /* ----------------------------- Reporte (lo que se imprime) ----------------------------- */
 function buildReport(){
+ CW=700;
  const r=S.rep, o=calc(S.ui.N,S.ui.prof,S); let n=0; let h='';
  const H=t=>`<h2>${++n}. ${t}</h2>`;
  const when=new Date().toLocaleDateString('es-CO',{year:'numeric',month:'long',day:'numeric'});
  const sections=[];
  if(r.resumen) sections.push(`<section>${H('Resumen de costos')}${outSummary()}</section>`);
- if(r.personal) sections.push(`<section>${H('Personal')}${staffTable()}</section>`);
+ if(r.graficas){ const gr=graficasReport(); if(gr) sections.push(`<section>${H('Gráficas')}${gr}</section>`); }
+ if(r.personal&&(S.ui.analyst||S.ui.sd_on)) sections.push(`<section>${H('Personal')}${staffTable()}</section>`);
  if(r.diagrama) sections.push(`<section>${H('Cómo se conecta XiGOS y qué se cobra')}${outDiagram()}</section>`);
  if(r.glosario) sections.push(`<section>${H('Glosario sin tecnicismos')}${GLOSARIO}</section>`);
- const provIds=['traffic','ors','owm','eje','osm','mail','push','wa','ows','wazeoff','apify','inrix','gmaps','priv','gov'].filter(id=>r[id]);
+ const provIds=['traffic','ors','owm','eje','osm','mail','push','wa','ows','wazeoff','apify','inrix','gmaps','gov'].filter(id=>r[id]);
  if(provIds.length){
   let b=`<section>${H('Proveedores y tarifas')}`;
   for(const id of provIds){
@@ -633,12 +700,11 @@ function buildReport(){
   if(r.comp) b+=`<h3>Las cuatro formas de alojar en AWS (USD al mes, solo infraestructura)</h3>${outArchs()}<h3>Los tres tamaños de uso (USD al mes, total)</h3>${outProfs()}`;
   sections.push(b+'</section>');
  }
- if(r.precios) sections.push(`<section>${H('Precio mínimo para no perder dinero')}<p class="small">Precio = costo ÷ (1 − margen). Son pisos de referencia, no precios del producto.</p>${outPrice()}</section>`);
  if(r.supuestos) sections.push(`<section>${H('Supuestos y tamaños de uso')}<table><tr><th class="l">Supuesto</th><th class="l">Por qué importa</th><th>Valor</th></tr>${SUPS.map(([p,l,w])=>`<tr><td class="l">${l}</td><td class="l">${w}</td><td>${fmtN(get(p))}</td></tr>`).join('')}</table>
   <table><tr><th class="l">Tamaño de uso (por cliente)</th><th>Bajo</th><th>Medio</th><th>Alto</th></tr>${PROFROWS.map(([k,l])=>`<tr><td class="l">${l}</td>${[0,1,2].map(i=>`<td>${fmtN(S.p[k][i])}</td>`).join('')}</tr>`).join('')}</table>
   <p class="small">TRM ${fmt(S.t.trm)} COP por USD (datos.gov.co, 2026-11-06); EUR/USD ${S.t.eurusd} (BCE, 2026-11-06).</p></section>`);
  if(r.pendientes) sections.push(`<section>${H('Qué falta saber (no se inventó ningún valor)')}${PENDIENTES}</section>`);
- h=`<div class="rhead"><h1>Reporte de costos XiGOS</h1><div class="sub">Generado el ${when} · precios consultados el 2026-11-06 · TRM ${fmt(S.t.trm)} COP/USD · USD sin IVA · cifras aproximadas</div></div>`+(sections.join('')||'<p class="box">No hay secciones seleccionadas. Marque «En el reporte» en las fichas de la pestaña Configurar.</p>');
+ h=`<div class="rhead"><h1>Reporte de costos XiGOS</h1><div class="sub">Generado el ${when} · precios consultados el 2026-11-06 · TRM ${fmt(S.t.trm)} COP/USD · USD sin IVA · cifras aproximadas</div></div>`+(sections.join('')||'<p class="box">No hay secciones seleccionadas. Marque «En el reporte» en las fichas de la pestaña Configuración.</p>');
  return h;
 }
 const SCENLINE=()=>`Escenario: <b>${int(S.ui.N)} cliente(s)</b>, uso <b>${['bajo','medio','alto'][S.ui.prof]}</b>, alojamiento <b>${ARCH[S.ui.arch]}</b>.`;
@@ -704,13 +770,15 @@ function outSummary(){
  const hard=o.tech;
  const pName=['Bajo','Medio','Alto'][pi];
  const share=x=>fmt(x/o.total*100,0);
+ const devCost=(o.p.hours_day*3600*30/Math.max(o.p.gps_nominal,60))*S.g.row_bytes/1e9*(S.t.ebs_gp3+S.g.backup_factor*S.t.s3);
+ const gpsNote=o.gps>0?' Incluye los costos de GPS que usted activó en la ficha de GPS.':' No incluye el equipo, la SIM ni la plataforma GPS (los paga el cliente), salvo que los active en la ficha de GPS.';
  return `<div class="cards">
-  <div class="card big"><b>${usd(o.total,0)}</b><span>Total aproximado <u>por mes</u> (≈ ${cop(o.total)})</span></div>
-  <div class="card"><b>${usd(hard,0)}</b><span>Solo «costo duro» por mes: servidores + proveedores (≈ ${cop(hard)})</span></div>
-  <div class="card"><b>${usd(o.total/N,2)}</b><span>Por cliente al mes (≈ ${cop(o.total/N)})</span></div>
-  <div class="card"><b>${usd(o.total/o.devices,2)}</b><span>Por vehículo con GPS al mes</span></div>
-  <div class="card"><b>${usd(o.total*12,0)}</b><span>Por año (≈ ${cop(o.total*12)})</span></div>
-  ${o.onboarding>0?`<div class="card"><b>${usd(o.onboarding,0)}</b><span>Instalación de los ${int(N)} clientes (una sola vez, supuesto)</span></div>`:''}</div>
+  <div class="card big"><b>${usd(o.total,0)}</b><span>Total aproximado por mes (≈ ${cop(o.total)})</span><em>Qué es: lo que costaría mantener XiGOS cada mes. Cómo se calcula: servidores y AWS + datos de tráfico + otros proveedores + el personal que usted active.</em></div>
+  <div class="card"><b>${usd(hard,0)}</b><span>«Costo duro» por mes (≈ ${cop(hard)})</span><em>Qué es: solo lo que se paga a AWS y a proveedores, sin personal. Es dinero que sale sí o sí.</em></div>
+  <div class="card"><b>${usd(o.total/N,2)}</b><span>Por cliente al mes (≈ ${cop(o.total/N)})</span><em>Cómo se calcula: total ÷ ${int(N)} cliente(s). Sirve para presupuestar cuánto cuesta atender a cada cliente.</em></div>
+  <div class="card"><b>${usd(o.total*12,0)}</b><span>Por año (≈ ${cop(o.total*12)})</span><em>Cómo se calcula: total mensual × 12.</em></div>
+  <div class="card wide"><b>${usd(o.total/o.devices,2)}</b><span>Promedio por vehículo con GPS al mes</span><em><b>Es solo un promedio, no lo que cuesta cada vehículo.</b> Se calcula como total ÷ ${int(o.devices)} vehículos. El vehículo en sí casi no cuesta: guardar sus posiciones sale ≈ ${usd(devCost,4)} al mes. La cifra baja cuando hay más vehículos porque los costos fijos (servidores, zonas del mapa, personal) se reparten entre más.${gpsNote}</em></div>
+  ${o.onboarding>0?`<div class="card full"><b>${usd(o.onboarding,0)}</b><span>Instalación de los ${int(N)} clientes (una sola vez)</span><em>Pago único, no mensual: horas de instalación × tarifa por hora (supuesto).</em></div>`:''}</div>
  ${barHtml(items)}
  <div class="box info"><b>En palabras simples:</b> con <b>${int(N)} cliente(s)</b> de uso <b>${pName.toLowerCase()}</b> (${int(o.devices)} vehículos en total) alojados en <b>${ARCH[S.ui.arch]}</b>, mantener XiGOS cuesta alrededor de <b>${usd(o.total,0)} al mes</b>. De cada 100 dólares, <b>${share(o.infra)}</b> se van en servidores y AWS, <b>${share(o.traffic)}</b> en datos de tráfico de proveedores, <b>${share(o.other)}</b> en otros servicios y <b>${share(o.staff)}</b> en personal${o.staff>0?'':' (por ahora no se cuenta personal)'}. Cada vehículo adicional solo agrega ≈ <b>${usd(o.pos_gb*0+ (o.p.hours_day*3600*30/Math.max(o.p.gps_nominal,60))*S.g.row_bytes/1e9*(S.t.ebs_gp3+S.g.backup_factor*S.t.s3),4)}</b> al mes.</div>
  ${sumTable(o,N,hard)}
@@ -813,18 +881,226 @@ function outProfs(){
  const rows=S.ui.scales.map(n=>{const a=calc(n,0,S),b=calc(n,1,S),c=calc(n,2,S); return `<tr><td class="l">${int(n)}</td><td>${fmt(a.total,0)}</td><td>${fmt(b.total,0)}</td><td>${fmt(c.total,0)}</td><td>${fmt(a.total/n)}</td><td>${fmt(b.total/n)}</td><td>${fmt(c.total/n)}</td></tr>`;}).join('');
  return `<table><tr><th class="l">Clientes</th><th>Total Bajo</th><th>Total Medio</th><th>Total Alto</th><th>Por cliente Bajo</th><th>Por cliente Medio</th><th>Por cliente Alto</th></tr>${rows}</table>`;
 }
-function outPrice(){
- const ms=[0.3,0.4,0.5,0.6,0.7];
- const rows=S.ui.scales.map(n=>{const o=calc(n,S.ui.prof,S); const c=o.total/n, h=o.tech/n; const pf=c/(1-0.5-S.g.pay_fee);
-  return `<tr><td class="l">${int(n)}</td><td>${fmt(h)}</td><td>${fmt(c)}</td>${ms.map(m=>`<td>${m===0.5?'<b>':''}${fmt(c/(1-m),0)}${m===0.5?'</b>':''}</td>`).join('')}<td>${fmt(pf*(1+S.g.iva),0)}</td><td>${fmt(pf*(1+S.g.iva)*S.t.trm,0)}</td><td>${fmt(c/0.5*12,0)}</td></tr>`;}).join('');
- const o10=calc(S.ui.N,S.ui.prof,S); const c=o10.total/S.ui.N;
- const a=calc(10,S.ui.prof,S), b=calc(100,S.ui.prof,S); const v=(b.total-a.total)/90, F=a.total-10*v; const p100=b.total/100/0.5; const be=p100>v?F/(p100-v):NaN;
- return `<div class="scroll"><table><tr><th class="l">Clientes</th><th>Costo duro por cliente</th><th>Costo total por cliente</th><th>Precio con margen 30 %</th><th>40 %</th><th>50 %</th><th>60 %</th><th>70 %</th><th>50 % + comisión + IVA (USD)</th><th>… en COP</th><th>Precio al 50 % por cliente al año (USD, sin IVA)</th></tr>${rows}</table></div>
- <p>Para ${int(S.ui.N)} cliente(s): precio mínimo con 50 % de margen = <b>${usd(c/0.5,0)}</b> por cliente al mes (≈ ${usd(c/0.5/o10.p.devices,2)} por vehículo, ya que son ${int(o10.p.devices)} por cliente). Solo cubriendo el costo duro: <b>${usd(o10.tech/S.ui.N/0.5,0)}</b>.</p>
- <div class="box info"><b>Punto de equilibrio aproximado</b> (linealizando entre 10 y 100 clientes): costo fijo ≈ ${usd(F,0)} al mes y variable ≈ ${usd(v,0)} por cliente. Con un precio ilustrativo de ${usd(p100,0)} por cliente (50 % de margen a 100 clientes) se empata con ≈ <b>${isFinite(be)?fmt(be,0):'—'} clientes</b>. No incluye el desarrollo pendiente.</div>
- <p class="small">Comisión de cobro supuesta ${fmt(S.g.pay_fee*100,0)} %, IVA ${fmt(S.g.iva*100,0)} %. Se recomienda cobrar una cuota de alta (las horas de instalación no se cuentan por ahora) y evaluar cobrar aparte las zonas adicionales (cada una cuesta a los proveedores ≈ US$ ${fmt((calc(10,S.ui.prof,S).traffic-calc(5,S.ui.prof,S).traffic)/(calc(10,S.ui.prof,S).cells-calc(5,S.ui.prof,S).cells))} al mes).</p>`;
+/* ----------------------------- Gráficas (SVG propio, sin librerías) ----------------------------- */
+// Colores: paleta categórica validada (orden fijo: azul, naranja, aguamarina, amarillo, magenta). Cada concepto conserva SIEMPRE su color.
+let CW=560;   // ancho de dibujo de las gráficas (se ajusta al recuadro donde van)
+const PAL={infra:'#2a78d6',traffic:'#eb6834',other:'#1baf7a',gps:'#eda100',staff:'#e87ba4'};
+const ARCHC={A:'#2a78d6',B:'#eb6834',C:'#1baf7a',D:'#eda100'};
+const INK='#0b0b0b',INK2='#52514e',MUTED='#898781',GRID='#e1e0d9',AXIS='#c3c2b7',SURF='#fcfcfb';
+const VU=()=>S.ui.unit==='cop'?S.t.trm:1;
+const vf=(x,d=0)=>S.ui.unit==='cop'?'COP '+fmt(x*S.t.trm,0):'US$ '+fmt(x,d);
+const cmp=v=>{const a=Math.abs(v); const I=x=>Number.isInteger(Math.round(x*10)/10)&&Math.abs(x-Math.round(x))<1e-9; if(a>=1e9) return fmt(v/1e9,I(v/1e9)?0:1)+' mil M'; if(a>=1e6) return fmt(v/1e6,I(v/1e6)?0:1)+' M'; if(a>=1e3){const k=v/1e3; return fmt(k,I(k)||a>=1e4?0:1)+' mil';} return fmt(v,I(v)?0:(a>0&&a<0.1?2:(a>0&&a<10?1:0)));};
+const niceMax=v=>{ if(!(v>0)) return 1; const e=Math.pow(10,Math.floor(Math.log10(v))); const f=v/e; return (f<=1?1:f<=2?2:f<=5?5:10)*e; };
+const tipA=t=>`data-tip="${String(t).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"`;
+const VH={}, VO={};   // series ocultas y tablas abiertas (solo en la vista interactiva)
+const svgOpen=(W,H,aria)=>`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${aria}" class="svgc" xmlns="http://www.w3.org/2000/svg">`;
+
+function legendHtml(items,tog){ return `<div class="lg2">${items.map(i=>tog?`<label class="lgi"><input type="checkbox" data-vz="${i.k}" ${VH[i.k]?'':'checked'}><i style="background:${i.c}"></i>${i.l}</label>`:`<span class="lgi"><i style="background:${i.c}"></i>${i.l}</span>`).join('')}</div>`; }
+const tbl=(heads,rows)=>`<div class="scroll"><table><tr>${heads.map((h,i)=>`<th${i?'':' class="l"'}>${h}</th>`).join('')}</tr>${rows.map(r=>`<tr>${r.map((c,i)=>`<td${i?'':' class="l"'}>${c}</td>`).join('')}</tr>`).join('')}</table></div>`;
+
+function svgHBars(items,aria){
+ const W=CW,rowH=42,L=172,R=164,T=8,H=T*2+rowH*items.length; const mx=Math.max(...items.map(i=>i.v),1e-9); const tot=items.reduce((a,i)=>a+i.v,0)||1;
+ const wrap=(s,n)=>{ const out=[]; let cur=''; s.split(' ').forEach(w=>{ if((cur+' '+w).trim().length>n&&cur){ out.push(cur); cur=w; } else cur=(cur+' '+w).trim(); }); if(cur) out.push(cur); return out; };
+ let g=''; items.forEach((it,i)=>{ const y=T+rowH*i+11, w=Math.max(2,(W-L-R)*it.v/mx), ls=wrap(it.l,24);
+  g+=ls.map((ln,k)=>`<text x="${L-8}" y="${y+(ls.length>1?9+k*13:14)}" text-anchor="end" font-size="12" fill="${INK2}">${ln}</text>`).join('');
+  g+=`<rect class="mk" x="${L}" y="${y}" width="${w}" height="18" rx="4" fill="${it.c}" ${tipA(`${it.l}: ${vf(it.v)} al mes · ${vf(it.v*12)} al año · ${fmt(it.v/tot*100,0)} % del total`)}/>`;
+  g+=`<text x="${L+w+6}" y="${y+14}" font-size="12" font-weight="600" fill="${INK}">${vf(it.v)} · ${fmt(it.v/tot*100,0)} %</text>`; });
+ g+=`<line x1="${L}" x2="${L}" y1="${T}" y2="${H-T}" stroke="${AXIS}"/>`;
+ return svgOpen(W,H,aria)+g+'</svg>';
+}
+function svgStacked(cats,series,xlabel,aria,xname){
+ const W=CW,H=300,L=62,R=10,T=18,B=42,pw=W-L-R,ph=H-T-B; const u=VU();
+ const tot=cats.map((_,i)=>series.reduce((a,s)=>a+(s.v[i]||0),0)); const mx=niceMax(Math.max(...tot,1e-9)*u)/u; let g='';
+ for(let k=0;k<=4;k++){ const y=T+ph-ph*k/4; g+=`<line x1="${L}" x2="${W-R}" y1="${y}" y2="${y}" stroke="${GRID}"/><text x="${L-6}" y="${y+4}" text-anchor="end" font-size="11" fill="${MUTED}">${cmp(mx*u*k/4)}</text>`; }
+ const band=pw/cats.length, bw=Math.min(46,band*0.64);
+ cats.forEach((c,i)=>{ const x=L+band*i+(band-bw)/2; let acc=0;
+  series.forEach(s=>{ const v=s.v[i]||0; if(v<=0) return; const h=ph*v/mx, y=T+ph-ph*(acc+v)/mx; acc+=v;
+   g+=`<rect class="mk" x="${x}" y="${y}" width="${bw}" height="${Math.max(h,.5)}" fill="${s.c}" stroke="${SURF}" stroke-width="2" rx="2" ${tipA(`${xname} ${fmt(c,0)} · ${s.l}: ${vf(v)} al mes (${fmt(v/tot[i]*100,0)} % del total)`)}/>`; });
+  g+=`<text x="${x+bw/2}" y="${T+ph-ph*tot[i]/mx-5}" text-anchor="middle" font-size="10.5" font-weight="600" fill="${INK}">${cmp(tot[i]*u)}</text>`;
+  g+=`<text x="${x+bw/2}" y="${H-B+16}" text-anchor="middle" font-size="11" fill="${INK2}">${fmt(c,0)}</text>`; });
+ g+=`<line x1="${L}" x2="${W-R}" y1="${T+ph}" y2="${T+ph}" stroke="${AXIS}"/><text x="${L+pw/2}" y="${H-4}" text-anchor="middle" font-size="11" fill="${MUTED}">${xlabel}</text>`;
+ return svgOpen(W,H,aria)+g+'</svg>';
+}
+function svgLines(xs,series,o){ // o:{logY, xlabel, aria, xname, dec}
+ const W=o.w||CW,H=290,L=62,R=78,T=16,B=42,pw=W-L-R,ph=H-T-B,u=VU(); const n=xs.length;
+ const pos=series.flatMap(s=>s.v).filter(v=>v>0); if(!pos.length) return '<p class="small">No hay datos para graficar.</p>';
+ let ymap,ticks=[];
+ if(o.logY){ let lo=Math.floor(Math.log10(Math.min(...pos)*u)), hi=Math.ceil(Math.log10(Math.max(...pos)*u)); if(hi<=lo) hi=lo+1; ymap=v=>T+ph-ph*(Math.log10(Math.max(v,1e-12)*u)-lo)/(hi-lo); for(let k=lo;k<=hi;k++) ticks.push([Math.pow(10,k),T+ph-ph*(k-lo)/(hi-lo)]); }
+ else { const mx=niceMax(Math.max(...pos)*u); ymap=v=>T+ph-ph*(v*u)/mx; for(let k=0;k<=4;k++) ticks.push([mx*k/4,T+ph-ph*k/4]); }
+ let g=''; ticks.forEach(([v,y])=>{ g+=`<line x1="${L}" x2="${W-R}" y1="${y}" y2="${y}" stroke="${GRID}"/><text x="${L-6}" y="${y+4}" text-anchor="end" font-size="11" fill="${MUTED}">${cmp(v)}</text>`; });
+ const xp=i=>L+pw*(i+.5)/n; xs.forEach((x,i)=>{ g+=`<text x="${xp(i)}" y="${H-B+16}" text-anchor="middle" font-size="11" fill="${INK2}">${fmt(x,0)}</text>`; });
+ g+=`<line x1="${L}" x2="${W-R}" y1="${T+ph}" y2="${T+ph}" stroke="${AXIS}"/><text x="${L+pw/2}" y="${H-4}" text-anchor="middle" font-size="11" fill="${MUTED}">${o.xlabel}</text>`;
+ const ends=[];
+ const colsAt=()=>{ let q=''; xs.forEach((x,i)=>{ const lines=series.filter(s=>s.v[i]>0).map(s=>`${s.l}: ${vf(s.v[i],o.dec===undefined?0:o.dec)}`); q+=`<rect class="col" x="${xp(i)-pw/n/2}" y="${T}" width="${pw/n}" height="${ph}" fill="transparent" ${tipA(`${o.xname} ${fmt(x,0)}\n`+lines.join('\n'))}/>`; }); return q; };
+ series.forEach(s=>{ const pts=s.v.map((v,i)=>v>0?[xp(i),ymap(v),v,i]:null).filter(Boolean); if(!pts.length) return;
+  g+=`<path d="${pts.map((p,k)=>(k?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ')}" fill="none" stroke="${s.c}" stroke-width="2" stroke-linejoin="round"/>`;
+  pts.forEach(p=>{ g+=`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="${s.c}" stroke="${SURF}" stroke-width="2"/>`; });
+  const last=pts[pts.length-1]; ends.push({y:last[1],x:last[0],s}); });
+ ends.sort((a,b)=>a.y-b.y); let prev=-99; ends.forEach(e=>{ const lab=e.s.short||e.s.l; if(series.length>1&&series.length<=4&&e.y-prev>=13&&lab.length*6.4+12<=W-e.x-2){ g+=`<text x="${e.x+9}" y="${e.y+4}" font-size="11" font-weight="600" fill="${INK2}">${lab}</text>`; prev=e.y; } });
+ return svgOpen(W,H,o.aria)+g+colsAt()+'</svg>';
+}
+function svgTornado(items,base,aria){
+ const W=CW,rowH=44,L=200,R=12,T=26,H=T+rowH*items.length+8; const half=(W-L-R)/2, x0=L+half; const mxd=Math.max(...items.flatMap(i=>[Math.abs(i.lo-base),Math.abs(i.hi-base)]),1e-9);
+ let g=`<text x="${x0-half}" y="14" font-size="11" fill="${MUTED}">← baja el costo</text><text x="${x0+half}" y="14" font-size="11" text-anchor="end" fill="${MUTED}">sube el costo →</text>`;
+ items.forEach((it,i)=>{ const y=T+rowH*i+4; const words=it.l.split(' '); const lines=[]; let cur=''; words.forEach(w=>{ if((cur+' '+w).trim().length>30&&cur){ lines.push(cur); cur=w; } else cur=(cur+' '+w).trim(); }); if(cur) lines.push(cur);
+  g+=lines.map((ln,k)=>`<text x="${L-8}" y="${y+(lines.length>1?11+k*14:16)}" text-anchor="end" font-size="11.5" fill="${INK2}">${ln}</text>`).join('');
+  [[it.lo,'Si baja 25 %',PAL.infra,0],[it.hi,'Si sube 25 %',PAL.traffic,1]].forEach(([val,lab,col,k])=>{ const d=val-base, w=Math.abs(d)/mxd*half, x=d>=0?x0:x0-w, yy=y+k*16;
+   g+=`<rect class="mk" x="${x}" y="${yy}" width="${Math.max(w,1.5)}" height="13" rx="3" fill="${col}" ${tipA(`${it.l} — ${lab}: el total mensual pasa de ${vf(base)} a ${vf(val)} (${d>=0?'+':'−'}${vf(Math.abs(d))})`)}/>`;
+   const lab2=`${d>=0?'+':'−'}${cmp(Math.abs(d)*VU())}`, bw2=Math.max(w,1.5), fits=d>=0?(x0+bw2+4+38<=W-2):(x0-bw2-4-38>=2);
+   g+=fits?`<text x="${d>=0?x0+bw2+4:x0-bw2-4}" y="${yy+11}" font-size="10.5" text-anchor="${d>=0?'start':'end'}" fill="${INK2}">${lab2}</text>`:`<text x="${d>=0?x0+bw2-5:x0-bw2+5}" y="${yy+11}" font-size="10.5" font-weight="600" text-anchor="${d>=0?'end':'start'}" fill="#fff">${lab2}</text>`; }); });
+ g+=`<line x1="${x0}" x2="${x0}" y1="${T-6}" y2="${H-6}" stroke="${AXIS}"/>`;
+ return svgOpen(W,H,aria)+g+'</svg>';
 }
 
+/* ----------------------------- Definición de cada gráfica ----------------------------- */
+const withS=(fn)=>{ const s=clone(S); fn(s); return s; };
+function perClient(o){ return o.total/o.N; }
+const CH=[
+ {id:'desglose',title:'¿Dónde se va el dinero?',
+  what:'Reparte el costo mensual total entre sus partes: servidores, datos de tráfico, otros proveedores, GPS y personal.',
+  how:'Cada barra es una parte; mientras más larga, más pesa. A la derecha está su valor y qué porcentaje del total es.',
+  build:()=>{ const N=S.ui.N,o=calc(N,S.ui.prof,S); const items=[{l:'Servidores y AWS',v:o.infra,c:PAL.infra},{l:'Datos de tráfico (HERE+TomTom)',v:o.traffic,c:PAL.traffic},{l:'Otros proveedores',v:o.other-o.gps,c:PAL.other}];
+   if(o.gps>0) items.push({l:'GPS (equipos, SIM, plataforma)',v:o.gps,c:PAL.gps}); if(o.staff>0) items.push({l:'Personal',v:o.staff,c:PAL.staff});
+   const top=[...items].sort((a,b)=>b.v-a.v)[0];
+   return {legend:'',svg:svgHBars(items,'Reparto del costo mensual por concepto'),note:`Con ${int(N)} cliente(s), lo que más pesa es <b>${top.l}</b>: ${vf(top.v)} al mes (${fmt(top.v/o.total*100,0)} % del total de ${vf(o.total)}).`,
+    table:tbl(['Concepto','Al mes','Al año','% del total'],items.map(i=>[i.l,vf(i.v,2),vf(i.v*12),fmt(i.v/o.total*100,1)+' %']))}; }},
+ {id:'crecimiento',title:'Cómo crece el costo al tener más clientes',
+  what:'El costo mensual de cada parte (y el total) para distintas cantidades de clientes.',
+  how:'Cada línea es una parte del costo (vea la leyenda); la negra es el total. La escala vertical es logarítmica: cada raya vale 10 veces la anterior, así se ven juntas las cifras pequeñas y las grandes. Una línea que se aplana (como la de tráfico) significa que deja de crecer aunque haya más clientes. Puede apagar líneas con las casillas.',
+  build:(tog)=>{ const sc=S.ui.scales,pi=S.ui.prof; const os=sc.map(n=>calc(n,pi,S));
+   const all=[{k:'infra',l:'Servidores y AWS',c:PAL.infra,v:os.map(o=>o.infra)},{k:'traffic',l:'Datos de tráfico',c:PAL.traffic,v:os.map(o=>o.traffic)},{k:'other',l:'Otros proveedores',c:PAL.other,v:os.map(o=>o.other-o.gps)},
+    {k:'gps',l:'GPS',c:PAL.gps,v:os.map(o=>o.gps)},{k:'staff',l:'Personal',c:PAL.staff,v:os.map(o=>o.staff)}].filter(s=>s.v.some(x=>x>0.005));
+   all.push({k:'total',l:'TOTAL',c:INK,v:os.map(o=>o.total)});
+   const vis=all.filter(s=>!(tog&&VH[s.k])); const f=os[0],l=os[os.length-1];
+   return {legend:legendHtml(all,tog),svg:vis.length?svgLines(sc,vis,{logY:true,xlabel:'Número de clientes',aria:'Costo mensual de cada parte y total según el número de clientes',xname:'Con',dec:0}):'<p class="small">Active al menos una línea en la leyenda.</p>',
+    note:`Con ${int(sc[0])} cliente(s) cuesta ${vf(f.total)} al mes; con ${int(sc[sc.length-1])}, ${vf(l.total)}. El total sube, pero por cliente baja de ${vf(f.total/sc[0])} a ${vf(l.total/sc[sc.length-1])} (siguiente gráfica).`,
+    table:tbl(['Clientes','Servidores y AWS','Tráfico','Otros','GPS','Personal','TOTAL al mes','TOTAL al año'],sc.map((n,i)=>[int(n),vf(os[i].infra),vf(os[i].traffic),vf(os[i].other-os[i].gps),vf(os[i].gps),vf(os[i].staff),vf(os[i].total),vf(os[i].total*12)]))}; }},
+ {id:'promedio',title:'Cuánto cuesta cada cliente (promedio) al crecer',
+  what:'El costo mensual promedio de UN cliente según cuántos clientes tenga XiGOS.',
+  how:'Cada punto es una cantidad de clientes (abajo). Si la línea baja, cada cliente sale más barato, porque los costos fijos (el hub, las zonas del mapa) se reparten entre más clientes.',
+  build:(tog)=>{ const sc=S.ui.scales,pi=S.ui.prof; const os=sc.map(n=>calc(n,pi,S)); const same=os.every(o=>Math.abs(o.total-o.tech)<1e-9);
+   const ser=[{k:'tot',l:same?'Costo por cliente':'Total por cliente (con personal)',short:'Total',c:PAL.infra,v:os.map(o=>o.total/o.N)}]; if(!same) ser.push({k:'duro',l:'Costo duro por cliente (sin personal)',short:'Costo duro',c:PAL.traffic,v:os.map(o=>o.tech/o.N)});
+   const vis=ser.filter(s=>!(tog&&VH[s.k])); const f=os[0],l=os[os.length-1];
+   return {legend:same?'':legendHtml(ser,tog),svg:svgLines(sc,vis,{xlabel:'Número de clientes',aria:'Costo mensual promedio por cliente',xname:'Con',dec:2}),
+    note:`Con ${int(sc[0])} cliente(s) cada uno cuesta ${vf(f.total/sc[0],2)} al mes; con ${int(sc[sc.length-1])}, ${vf(l.total/sc[sc.length-1],2)}.`,
+    table:tbl(['Clientes','Total por cliente al mes','Costo duro por cliente','Total por cliente al año'],sc.map((n,i)=>[int(n),vf(os[i].total/n,2),vf(os[i].tech/n,2),vf(os[i].total*12/n)]))}; }},
+ {id:'vehiculo',title:'¿Un vehículo más sube el costo?',
+  what:'Qué pasa con el costo si cada cliente tiene más o menos vehículos con GPS (el número de clientes se mantiene).',
+  how:'A la izquierda, el costo total del mes: casi no se mueve. A la derecha, el promedio por vehículo: baja porque el costo fijo se reparte entre más vehículos. Por eso el «costo por vehículo» es solo un promedio.',
+  build:()=>{ const N=S.ui.N,pi=S.ui.prof,ds=[1,2,5,10,20,50,100,200]; const os=ds.map(d=>calc(N,pi,withS(s=>{s.p.devices=[d,d,d];})));
+   const half=CW>=640?Math.round((CW-12)/2):CW;
+   const a=svgLines(ds,[{k:'t',l:'Costo total al mes',c:PAL.infra,v:os.map(o=>o.total)}],{w:half,xlabel:'Vehículos por cliente',aria:'Costo total mensual según vehículos por cliente',xname:'Con',dec:0});
+   const b=svgLines(ds,[{k:'p',l:'Promedio por vehículo',c:PAL.traffic,v:os.map(o=>o.total/o.devices)}],{w:half,logY:true,xlabel:'Vehículos por cliente',aria:'Promedio mensual por vehículo según vehículos por cliente',xname:'Con',dec:2});
+   const dc=(os[os.length-1].total-os[0].total)/((ds[ds.length-1]-ds[0])*N);
+   return {legend:'',svg:`<div class="two"><div><div class="mini">Costo TOTAL al mes</div>${a}</div><div><div class="mini">Promedio POR VEHÍCULO al mes (escala logarítmica)</div>${b}</div></div>`,
+    note:`Pasar de ${ds[0]} a ${ds[ds.length-1]} vehículos por cliente cambia el total en solo ${vf(os[os.length-1].total-os[0].total,2)} (≈ ${vf(dc,4)} por vehículo adicional al mes). El promedio baja de ${vf(os[0].total/os[0].devices,2)} a ${vf(os[os.length-1].total/os[os.length-1].devices,2)} por vehículo.`,
+    table:tbl(['Vehículos por cliente','Vehículos en total','Total al mes','Promedio por vehículo'],ds.map((d,i)=>[int(d),int(os[i].devices),vf(os[i].total,2),vf(os[i].total/os[i].devices,2)]))}; }},
+ {id:'sens',title:'¿Qué mueve más el resultado?',
+  what:'Cuánto cambia el costo mensual total si cada supuesto o precio sube o baja un 25 %, uno por uno.',
+  how:'Cada fila es un supuesto. La barra azul muestra qué pasa si baja 25 %; la naranja, si sube 25 %. Las barras más largas son los supuestos que más importa confirmar con datos reales.',
+  build:()=>{ const N=S.ui.N,pi=S.ui.prof; const base=calc(N,pi,S).total; const defs=[
+    ['Zonas del mapa que vigila cada cliente',(s,f)=>{s.p.cells_pc=s.p.cells_pc.map(v=>v*f);}],['Zonas posibles en el país (tope)',(s,f)=>{s.g.ncap*=f;}],['Minutos entre consultas de tráfico',(s,f)=>{s.g.interval_traffic*=f;}],
+    ['% de consultas al proveedor de respaldo',(s,f)=>{s.g.backup_pct=Math.min(100,s.g.backup_pct*f);}],['Precio por 1.000 consultas (TomTom y HERE)',(s,f)=>{['here_t1','here_t2','here_t3','tt_t1','tt_t2'].forEach(k=>s.t[k]*=f);}],
+    ['Memoria que usa cada contenedor',(s,f)=>{s.ctr.forEach(c=>c.ram*=f);}],['Precio de los servidores de AWS',(s,f)=>{['ls_4','ls_8','ls_16','ls_32','ec2_t3l','rds_single','rds_multi'].forEach(k=>s.t[k]*=f);}],
+    ['Vehículos por cliente',(s,f)=>{s.p.devices=s.p.devices.map(v=>v*f);}]];
+   if(S.ui.analyst) defs.push(['Sueldo del analista de inteligencia',(s,f)=>{s.g.analyst_salary_cop*=f;}]);
+   if(S.ui.gps) defs.push(['Costos de GPS por equipo',(s,f)=>{s.gps.forEach(g=>{g.equip*=f;g.sim*=f;g.plat*=f;g.other*=f;g.install*=f;});}]);
+   const items=defs.map(([l,fn])=>({l,lo:calc(N,pi,withS(s=>fn(s,.75))).total,hi:calc(N,pi,withS(s=>fn(s,1.25))).total})).sort((a,b)=>Math.max(Math.abs(b.lo-base),Math.abs(b.hi-base))-Math.max(Math.abs(a.lo-base),Math.abs(a.hi-base)));
+   const t=items[0];
+   return {legend:`<div class="lg2"><span class="lgi"><i style="background:${PAL.infra}"></i>Si baja 25 %</span><span class="lgi"><i style="background:${PAL.traffic}"></i>Si sube 25 %</span></div>`,svg:svgTornado(items,base,'Sensibilidad del costo total a cada supuesto'),
+    note:`Costo base: ${vf(base)} al mes. Lo que más lo mueve es <b>${t.l}</b>: de ${vf(Math.min(t.lo,t.hi))} a ${vf(Math.max(t.lo,t.hi))}.`,
+    table:tbl(['Supuesto','Total si baja 25 %','Total si sube 25 %','Diferencia máxima'],items.map(i=>[i.l,vf(i.lo),vf(i.hi),vf(Math.max(Math.abs(i.lo-base),Math.abs(i.hi-base)))]))}; }},
+ {id:'aws',title:'Las cuatro formas de alojar en AWS',
+  what:'El costo mensual de infraestructura según cómo se aloje XiGOS, para cada cantidad de clientes.',
+  how:'Cada línea es una forma de alojar (vea la leyenda). Cuanto más abajo, más barata. La escala vertical es logarítmica (cada raya vale 10 veces la anterior) para poder ver todas juntas.',
+  build:(tog)=>{ const sc=S.ui.scales,pi=S.ui.prof; const os=sc.map(n=>calc(n,pi,S));
+   const all=[{k:'A',l:'A · Lightsail',short:'A',c:ARCHC.A,v:os.map(o=>o.A)},{k:'B',l:'B · EC2 + RDS',short:'B',c:ARCHC.B,v:os.map(o=>o.B)},{k:'C',l:'C · Alta disponibilidad',short:'C',c:ARCHC.C,v:os.map(o=>o.C)},{k:'D',l:'D · Fargate + RDS',short:'D',c:ARCHC.D,v:os.map(o=>o.D)}];
+   const vis=all.filter(s=>!(tog&&VH[s.k])); const l=os[os.length-1];
+   return {legend:legendHtml(all,tog),svg:svgLines(sc,vis,{logY:true,xlabel:'Número de clientes',aria:'Costo mensual de infraestructura por forma de alojar',xname:'Con',dec:0}),
+    note:`Con ${int(sc[sc.length-1])} clientes: A cuesta ${vf(l.A)}, B ${vf(l.B)}, C ${vf(l.C)} y D ${vf(l.D)} al mes. A es la más barata pero sin alta disponibilidad.`,
+    table:tbl(['Clientes','A · Lightsail','B · EC2+RDS','C · Alta disp.','D · Fargate'],sc.map((n,i)=>[int(n),vf(os[i].A),vf(os[i].B),vf(os[i].C),vf(os[i].D)]))}; }},
+ {id:'trafico',title:'TomTom y HERE según las zonas vigiladas',
+  what:'Cuánto cuesta cada proveedor de tráfico según cuántas zonas del mapa (celdas) se vigilan.',
+  how:'Cada punto es una cantidad de zonas (abajo). Cada línea es un proveedor. Se ve dónde uno empieza a costar más que el otro y cómo suma el respaldo.',
+  build:(tog)=>{ const cells=[1,3,6,12,30,100,250,450]; const g=S.g,bk=g.backup_pct/100,cpm=43200/g.interval_traffic;
+   const cost=c=>{ const calls=c*cpm, tc=g.backup_primary===1?calls:calls*bk, hc=g.backup_primary===1?calls*bk:calls; return {tt:tierTTeur(tc,S.t)*S.t.eurusd,here:tierHere(hc,S.t)}; };
+   const cs=cells.map(cost); const all=[{k:'tt',l:'TomTom'+(g.backup_primary===1?' (principal)':' (respaldo)'),short:'TomTom',c:PAL.infra,v:cs.map(x=>x.tt)},{k:'here',l:'HERE'+(g.backup_primary===1?' (respaldo)':' (principal)'),short:'HERE',c:PAL.traffic,v:cs.map(x=>x.here)},{k:'sum',l:'Los dos juntos',short:'Total',c:PAL.other,v:cs.map(x=>x.tt+x.here)}];
+   const vis=all.filter(s=>!(tog&&VH[s.k])); const l=cs[cs.length-1];
+   return {legend:legendHtml(all,tog),svg:svgLines(cells,vis,{xlabel:'Zonas del mapa vigiladas (celdas)',aria:'Costo mensual de TomTom y HERE según zonas vigiladas',xname:'Con',dec:0}),
+    note:`Con ${cells[cells.length-1]} zonas: TomTom ${vf(l.tt)} y HERE ${vf(l.here)} al mes (${vf(l.tt+l.here)} juntos). Con pocas zonas casi todo cae en la capa gratuita (HERE 5.000 y TomTom 2.500 consultas al mes).`,
+    table:tbl(['Zonas','Consultas al mes (principal)','TomTom al mes','HERE al mes','Los dos al mes'],cells.map((c,i)=>[int(c),int(c*cpm),vf(cs[i].tt,2),vf(cs[i].here,2),vf(cs[i].tt+cs[i].here,2)]))}; }},
+ {id:'analista',title:'Efecto del analista de inteligencia en el promedio',cond:()=>S.ui.analyst&&S.g.analyst_salary_cop>0,
+  what:'Cómo cambia el costo promedio por cliente al sumar el sueldo del analista.',
+  how:'La línea naranja es el promedio con el analista y la azul sin él. La diferencia es grande con pocos clientes y se achica al crecer, porque el sueldo se reparte entre más clientes.',
+  build:(tog)=>{ const sc=S.ui.scales,pi=S.ui.prof; const a=sc.map(n=>calc(n,pi,withS(s=>{s.ui.analyst=0;}))),b=sc.map(n=>calc(n,pi,withS(s=>{s.ui.analyst=1;})));
+   const all=[{k:'sin',l:'Sin analista',short:'Sin',c:PAL.infra,v:a.map((o,i)=>o.total/sc[i])},{k:'con',l:'Con analista',short:'Con',c:PAL.traffic,v:b.map((o,i)=>o.total/sc[i])}];
+   const vis=all.filter(s=>!(tog&&VH[s.k])); const i=sc.length-1;
+   return {legend:legendHtml(all,tog),svg:svgLines(sc,vis,{logY:true,xlabel:'Número de clientes',aria:'Costo por cliente con y sin analista',xname:'Con',dec:2}),
+    note:`Con ${int(sc[0])} cliente(s), el analista sube el promedio de ${vf(a[0].total/sc[0],2)} a ${vf(b[0].total/sc[0],2)} por cliente al mes; con ${int(sc[i])}, de ${vf(a[i].total/sc[i],2)} a ${vf(b[i].total/sc[i],2)}.`,
+    table:tbl(['Clientes','Por cliente sin analista','Por cliente con analista','Aumento'],sc.map((n,k)=>[int(n),vf(a[k].total/n,2),vf(b[k].total/n,2),fmt((b[k].total/a[k].total-1)*100,0)+' %']))}; }}
+];
+function chartCard(ch,interactive){
+ if(ch.cond&&!ch.cond()) return '';
+ const r=ch.build(interactive);
+ return `<div class="chart"><h3>${ch.title}</h3><p class="what"><b>Qué muestra:</b> ${ch.what}</p><p class="how"><b>Cómo leerla:</b> ${ch.how}</p>${r.legend}<div class="plot">${r.svg}</div><div class="insight">${r.note}</div>
+ ${interactive?`<details data-k="${ch.id}" ${VO[ch.id]?'open':''}><summary>Ver los datos de esta gráfica en tabla</summary>${r.table}</details>`:''}</div>`;
+}
+function diagramHtml(){
+ const o=calc(S.ui.N,S.ui.prof,S); const it=(a,b,c)=>`<div class="it"><b>${a}</b>${b?`<small>${b}</small>`:''}${c?`<span class="pay">${c}</span>`:''}</div>`;
+ const col=(cls,n,h,sub,body,foot)=>`<div class="col ${cls}"><h3><span class="num">${n}</span> ${h}</h3><p class="small" style="margin:0 0 4px">${sub}</p>${body}${foot?`<div class="pay foot">${foot}</div>`:''}</div>`;
+ const ar='<div class="arrow" aria-hidden="true">➜</div>';
+ return `<div class="dg">
+  ${col('c1',1,'Su cliente','Quienes usan XiGOS',
+    it('Usuarios con el navegador','Ven el panel con mapas gratis de OpenStreetMap','')+it('Vehículos con GPS','Equipo + SIM + plataforma GPS (Eje Satelital)','Lo paga el cliente a su proveedor')+it('Correo y avisos','Microsoft 365 · avisos del navegador','Costo mínimo'),'')}
+  ${ar}
+  ${col('c2',2,'Servidor en AWS','Una «instancia» por CADA cliente',
+    it('web','Muestra el panel','')+it('api','El cerebro: permisos, datos, PDF','')+it('worker','Tareas: informes, avisos, seguimiento GPS','')+it('base de datos','Guarda viajes, posiciones e informes',''),
+    `Se paga: servidor, disco y respaldos. Crece con cada cliente. ≈ ${usd(o.infra,0)} al mes (incluye el hub)`)}
+  ${ar}
+  ${col('c3',3,'Hub XiGOS','UNO solo para todos los clientes',
+    it('hub-api','Reparte las alertas a cada cliente','')+it('collector','Pregunta a los proveedores cada 30 min','')+it('base de datos del hub','Guarda lo recogido',''),
+    'Se paga una sola vez, sin importar cuántos clientes haya')}
+  ${ar}
+  ${col('c4',4,'Proveedores externos','A quienes el hub les pregunta',
+    it('TomTom Traffic','Incidentes de tráfico','Por petición · 2.500 gratis al mes')+it('HERE Traffic','Incidentes de tráfico (respaldo)','Por petición · 5.000 gratis al mes')+it('OpenRouteService','Rutas y alternas','Gratis hasta 2.000 al día')+it('OpenWeatherMap','Clima','Gratis hasta 1 millón al mes')+it('WhatsApp (Meta)','Pendiente de implementación','US$ 0,0008 por mensaje de utilidad'),
+    `Tráfico (TomTom + HERE) ≈ ${usd(o.traffic,0)} al mes con ${int(S.ui.N)} cliente(s)`)}
+ </div>`;
+}
+function renderViz(){
+ CW=Math.max(300,Math.min(1400,document.getElementById('viz').clientWidth-72));
+ const tmp=document.createElement('div'); tmp.innerHTML=outSummary();
+ const cards=tmp.querySelector('.cards'), simple=tmp.querySelector('.box.info');
+ document.getElementById('viz').innerHTML=`<section><h2>Así se conecta XiGOS y qué se cobra</h2>
+  <p class="lead">Para entender de un vistazo de dónde sale el costo. Lea de izquierda a derecha (en el celular, de arriba hacia abajo). <b class="payc">Lo que está en rojo es lo que genera costo.</b></p>${diagramHtml()}</section>
+  <section><h2>Resumen interactivo</h2>
+  <p class="lead">Las cifras y gráficas cambian al modificar el escenario de arriba. <b>Pase el cursor (o toque) sobre una barra o un punto</b> para ver el detalle. Las casillas bajo el título de algunas gráficas apagan o encienden partes.</p>
+  ${cards?cards.outerHTML:''}${simple?simple.outerHTML:''}</section>
+  <section><h2>Gráficas</h2>${CH.map(c=>chartCard(c,true)).join('')}</section>`;
+ const tp=document.createElement('div'); tp.innerHTML=buildReport(); const secs=[...tp.querySelectorAll('h2')].map(h=>h.textContent.replace(/^\d+\.\s*/,''));
+ document.getElementById('viz').insertAdjacentHTML('beforeend',`<section class="pdfbox"><h2>Imprimir o guardar como PDF</h2>
+  <p class="lead">El PDF lleva <b>solo lo que esté marcado «En el reporte»</b> en la pestaña Configuración, con el escenario de arriba. Hoy saldría esto:</p>
+  <div class="chips">${secs.length?secs.map((s,i)=>`<span class="chip">${i+1}. ${s}</span>`).join(''):'<span class="small">No hay nada marcado todavía.</span>'}</div>
+  <div class="ctl"><button class="pri bigbtn" id="btn-print-viz">🖨 Imprimir o guardar como PDF</button><button id="go-cfg">Cambiar qué incluye →</button></div>
+  <p class="small">Se abre el cuadro de impresión de su navegador: elija «Guardar como PDF» como destino.</p></section>`);
+}
+function graficasReport(){ const list=CH.filter(c=>S.rep['gr_'+c.id]&&(!c.cond||c.cond())); return list.map(c=>chartCard(c,false)).join(''); }
+function tipShow(t,e){ const el=document.getElementById('tip'); el.textContent=t; el.hidden=false; const w=el.offsetWidth,h=el.offsetHeight; let x=e.clientX+14,y=e.clientY+14; if(x+w>innerWidth-6) x=e.clientX-w-14; if(x<6) x=6; if(y+h>innerHeight-6) y=e.clientY-h-14; if(y<6) y=6; el.style.left=x+'px'; el.style.top=y+'px'; }
+document.addEventListener('mouseover',e=>{ const t=e.target.closest&&e.target.closest('[data-tip]'); if(t) tipShow(t.dataset.tip,e); });
+document.addEventListener('mousemove',e=>{ const t=e.target.closest&&e.target.closest('[data-tip]'); const el=document.getElementById('tip'); if(t) tipShow(t.dataset.tip,e); else if(el) el.hidden=true; });
+document.addEventListener('click',e=>{ const t=e.target.closest&&e.target.closest('[data-tip]'); if(t) tipShow(t.dataset.tip,e); else { const el=document.getElementById('tip'); if(el) el.hidden=true; } });
+document.addEventListener('change',e=>{ const x=e.target; if(x.dataset&&x.dataset.vz){ VH[x.dataset.vz]=!x.checked; renderViz(); } });
+document.addEventListener('toggle',e=>{ const d=e.target; if(d.tagName==='DETAILS'&&d.dataset.k) VO[d.dataset.k]=d.open; },true);
+
+function archPick(){
+ const N=S.ui.N,pi=S.ui.prof; const D={1:['A · Lightsail','Un solo servidor con todo adentro. La más barata, pero sin alta disponibilidad: si falla, todo se cae hasta restaurar.'],
+  2:['B · EC2 + RDS','Servidores aparte para los programas y una base de datos administrada por AWS.'],
+  3:['C · Alta disponibilidad','Como B pero duplicada en dos zonas de AWS: sigue funcionando si una falla.'],
+  4:['D · Fargate + RDS','AWS administra cada contenedor por el equipo XiGOS (sin servidores que mantener), con base de datos RDS.']};
+ const os=[1,2,3,4].map(k=>calc(N,pi,S,{arch:k}).infra), mn=Math.min(...os);
+ return `<h3>Tenemos 4 posibilidades para alojar XiGOS en AWS</h3>
+ <p class="small">Toque una tarjeta para elegirla (o use el selector «Alojamiento en AWS»). El valor de cada una es solo el costo de servidores y AWS con el escenario actual (${int(N)} cliente(s)); el resto del resumen se recalcula con la que elija.</p>
+ <div class="archs">${[1,2,3,4].map((k,i)=>`<button type="button" class="archc ${S.ui.arch===k?'on':''}" data-arch="${k}" aria-pressed="${S.ui.arch===k}"><b>${D[k][0]}</b>${os[i]===mn?'<i class="best">la más barata</i>':''}<span>${D[k][1]}</span><em>${usd(os[i],0)} al mes<br><small>${usd(os[i]*12,0)} al año</small></em></button>`).join('')}</div>`;
+}
 function outKpi(){
  const N=S.ui.N,o=calc(N,S.ui.prof,S);
  const items=[{l:'Servidores y AWS',v:o.infra,c:COLORS.infra},{l:'Datos de tráfico (HERE + TomTom)',v:o.traffic,c:COLORS.traffic},{l:'Otros proveedores',v:o.other,c:COLORS.other},{l:'Personal',v:o.staff,c:COLORS.support}];
@@ -832,24 +1108,24 @@ function outKpi(){
  <div class="card"><b>${usd(o.tech,0)}</b><span>Solo «costo duro» por mes (≈ ${cop(o.tech)})</span></div>
  <div class="card"><b>${usd(o.total/N,2)}</b><span>Por cliente al mes</span></div><div class="card"><b>${usd(o.total*12,0)}</b><span>Por año (≈ ${cop(o.total*12)})</span></div></div>${barHtml(items)}`;
 }
-function setTab(t){ document.body.dataset.tab=t; document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t)); if(t==='rep') document.getElementById('rep').innerHTML=buildReport(); window.scrollTo(0,0); }
+function setTab(t){ document.body.dataset.tab=t; document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t)); if(t==='rep') document.getElementById('rep').innerHTML=buildReport(); if(t==='viz') renderViz(); window.scrollTo(0,0); }
 function buildPage(){
+ document.getElementById('repctl').innerHTML=`<section><h2>Escenario</h2><p class="lead">Elija cuántos clientes simular y el resumen se recalcula solo. Las cifras son <b>aproximadas</b>: usan precios de lista oficiales (consultados el 2026-11-06) y supuestos que usted puede cambiar en la pestaña «Configuración». Los números usan punto para miles y coma para decimales (US$ 1.382 = mil trescientos ochenta y dos).</p>${SCEN()}<div id="arch-pick"></div></section>`;
  document.getElementById('cfg').innerHTML=`
- <section><h2>Escenario</h2><p class="lead">Elija cuántos clientes simular. Todo se recalcula solo. Las cifras son <b>aproximadas</b>: usan precios de lista oficiales (consultados el 2026-11-06) y supuestos que usted puede cambiar en cada ficha.</p>
-  ${SCEN()}<div id="out-kpi"></div></section>
  <section><h2>Configuración y contenido del reporte</h2>
   <p class="lead">Cada ficha tiene su propia ventana con las explicaciones y los valores editables. Marque <b>«En el reporte»</b> en las que quiera imprimir; al final, el PDF contiene solo lo marcado.</p>
-  <div class="ctl"><button id="sel-all">Marcar todo</button><button id="sel-min">Solo resumen</button><button id="sel-none">Desmarcar todo</button><button class="pri" id="go-rep">Ver el reporte →</button></div>
+  <div class="ctl"><button id="sel-all">Marcar todo</button><button id="sel-min">Solo resumen</button><button id="sel-none">Desmarcar todo</button><button class="pri" id="go-rep">Ver el resumen →</button></div>
   ${TILES.map(g=>`<h3>${g.g}</h3><div class="tiles">${g.items.map(tileHtml).join('')}</div>`).join('')}</section>`;
 }
 function update(){
  const set=(id,h)=>{const e=document.getElementById(id); if(e) e.innerHTML=h;};
- set('out-kpi',outKpi());
- if(curModal){ set('m-traffic',outTrafficCompare()); set('m-gps',gpsTable()); set('m-staff',staffTable()); set('m-aws',outAws()); set('m-containers',outContainers()); set('m-conn',outConn()); set('m-price',outPrice()); set('m-proj',projTable(S.ui.prof)+`<h3>Comparación de alojamientos (USD al mes)</h3>`+outArchs()); }
+ set('out-kpi',outKpi()); set('arch-pick',archPick());
+ if(curModal){ set('m-traffic',outTrafficCompare()); set('m-gps',gpsTable()); set('m-staff',staffTable()); set('m-aws',outAws()); set('m-containers',outContainers()); set('m-conn',outConn()); set('m-proj',projTable(S.ui.prof)+`<h3>Comparación de alojamientos (USD al mes)</h3>`+outArchs()); }
  for(const p of PROVS.concat(PROVS_OPT)){ document.querySelectorAll(`[data-ex="${p.id}"]`).forEach(e=>e.innerHTML=p.ex()); }
  document.querySelectorAll('[data-calc]').forEach(e=>{ const f=CALC[e.dataset.calc]; e.textContent=f&&f()?'Sí':'No'; });
  document.querySelectorAll('[data-b]').forEach(e=>{ if(document.activeElement===e) return; const v=bget(e.dataset.b); if(e.type==='checkbox') e.checked=!!v; else if(e.value!=String(v)) e.value=v; });
  if(document.body.dataset.tab==='rep') document.getElementById('rep').innerHTML=buildReport();
+ if(document.body.dataset.tab==='viz') renderViz();
 }
 function bget(path){ if(path.startsWith('xt.')){ const e=S.extras.find(x=>x.id===path.slice(3)); return e?e.on:0; } return get(path); }
 function bset(path,v){ if(path.startsWith('xt.')){ const e=S.extras.find(x=>x.id===path.slice(3)); if(e) e.on=v?1:0; } else setp(path,v); }
@@ -857,19 +1133,23 @@ document.addEventListener('input',ev=>{ const e=ev.target; if(!e.dataset||!e.dat
  let v; if(e.type==='checkbox') v=e.checked?1:0; else if(e.type==='number'){ v=parseFloat(e.value); if(!isFinite(v)) return; } else v=e.dataset.int?parseInt(e.value):e.value;
  bset(e.dataset.b,v); save(); update(); });
 document.addEventListener('change',ev=>{ const e=ev.target;
- if(e.tagName==='SELECT'&&e.dataset.b){ bset(e.dataset.b,parseInt(e.value)); save(); update(); }
+ if(e.tagName==='SELECT'&&e.dataset.b){ bset(e.dataset.b,e.dataset.int?parseInt(e.value):e.value); save(); update(); }
  if(e.id==='scales-in'){ const a=[...new Set(e.value.split(/[,;\s]+/).map(x=>parseInt(x)).filter(x=>x>0))].sort((x,y)=>x-y).slice(0,12); if(a.length){ S.ui.scales=a; save(); } e.value=S.ui.scales.join(', '); update(); } });
 document.addEventListener('click',ev=>{ const t=ev.target;
  if(t.dataset&&t.dataset.open) openModal(t.dataset.open);
  if(t.id==='mx'||t.id==='modal') closeModal();
  if(t.id==='sel-all'||t.id==='sel-none'||t.id==='sel-min'){ for(const k in S.rep) S.rep[k]=t.id==='sel-all'?1:(t.id==='sel-min'&&k==='resumen'?1:0); save(); document.querySelectorAll('[data-b^="rep."]').forEach(c=>c.checked=!!S.rep[c.dataset.b.slice(4)]); update(); }
- if(t.id==='go-rep') setTab('rep'); });
+ if(t.id==='go-rep') setTab('viz');
+ if(t.id==='btn-print-viz') doPrint();
+ if(t.id==='go-cfg') setTab('cfg');
+ const ap=t.closest&&t.closest('[data-arch]'); if(ap){ S.ui.arch=parseInt(ap.dataset.arch); save(); update(); } });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&curModal) closeModal(); });
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
 
 /* ----------------------------- Botones ----------------------------- */
 function dl(name,mime,text){ const b=new Blob([text],{type:mime}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500); }
-document.getElementById('btn-pdf').onclick=()=>{ if(curModal) closeModal(); document.getElementById('rep').innerHTML=buildReport(); window.print(); };
+function doPrint(){ if(curModal) closeModal(); document.getElementById('rep').innerHTML=buildReport(); window.print(); }
+document.getElementById('btn-pdf').onclick=doPrint;
 document.getElementById('btn-csv').onclick=()=>{
  const pr=S.ui.prof; const hdr=['Clientes','Vehiculos','Celdas','Servidores y AWS USD','Datos de trafico USD','Otros proveedores USD','Costo duro USD','Personal USD','TOTAL USD/mes','USD por cliente','USD por vehiculo','USD por ano','COP por mes'];
  const lines=[hdr.join(';')]; for(const n of S.ui.scales){ const o=calc(n,pr,S); const other=o.other;
@@ -882,7 +1162,15 @@ document.getElementById('file-load').onchange=e=>{ const f=e.target.files[0]; if
 document.getElementById('btn-reset').onclick=()=>{ if(confirm('¿Restaurar todos los valores originales? Se pierden sus cambios.')){ S=clone(DEF); save(); if(curModal) closeModal(); buildPage(); update(); } };
 window.addEventListener('beforeprint',()=>{ document.getElementById('rep').innerHTML=buildReport(); });
 
-document.body.dataset.tab='cfg'; buildPage(); update();
+const more=document.getElementById('btn-more'), moreList=document.getElementById('more-list');
+more.onclick=e=>{ e.stopPropagation(); const open=moreList.hidden; if(open&&innerWidth<=700) moreList.style.top=(more.getBoundingClientRect().bottom+6)+'px'; moreList.hidden=!open; more.setAttribute('aria-expanded',String(open)); };
+document.addEventListener('click',e=>{ if(e.target.closest('#more-list button')||!e.target.closest('.menu')){ moreList.hidden=true; more.setAttribute('aria-expanded','false'); } });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ moreList.hidden=true; more.setAttribute('aria-expanded','false'); } });
+const GK='xigos-guide-hidden'; const showGuide=on=>{ document.getElementById('guide').hidden=!on; try{ localStorage.setItem(GK,on?'0':'1'); }catch(e){} if(on){ setTab('viz'); window.scrollTo(0,0); } };
+document.getElementById('guide-close').onclick=()=>showGuide(false); document.getElementById('btn-guide').onclick=()=>showGuide(true);
+try{ document.getElementById('guide').hidden=localStorage.getItem(GK)==='1'; }catch(e){ document.getElementById('guide').hidden=false; }
+let rzT; addEventListener('resize',()=>{ clearTimeout(rzT); rzT=setTimeout(()=>{ if(document.body.dataset.tab==='viz') renderViz(); },200); });
+document.body.dataset.tab='viz'; buildPage(); update();
 </script>
 </body>
 </html>
