@@ -116,6 +116,12 @@ html,body{max-width:100%;overflow-x:hidden}
  .ctl{background:none;padding:0;border:1px solid #ddd}
  .scroll{overflow:visible} th{-webkit-print-color-adjust:exact;print-color-adjust:exact} .pill,.bar>div,.legend i,.card.big{-webkit-print-color-adjust:exact;print-color-adjust:exact}
  details{display:block} details>summary{display:none}
+ /* Tablas anchas (p. ej. proyección con 13 columnas): que quepan en la hoja sin salirse por la derecha */
+ table{width:100%!important;max-width:100%;table-layout:auto;font-size:10px} th,td{padding:2px 3px;white-space:normal;overflow-wrap:anywhere;word-break:normal}
+ .scroll{overflow:visible!important;max-width:100%}
+ #tbl-proj{font-size:8px;table-layout:fixed} #tbl-proj th,#tbl-proj td{padding:2px 2px;overflow-wrap:anywhere}
+ #tbl-proj th:first-child,#tbl-proj td:first-child{width:5%}
+ .prov table{min-width:0!important;width:100%!important}
  .pb{break-before:page}
  .printonly{display:block}
 }

@@ -189,7 +189,7 @@ const KEY='xigos-calc-v1';
 let S=load();
 function load(){ try{ const j=JSON.parse(localStorage.getItem(KEY)||'null'); if(j){ const d=clone(DEF); for(const k of ['t','g']) Object.assign(d[k],j[k]||{}); if(j.p) for(const k in j.p) d.p[k]=j.p[k];
   if(j.ctr) j.ctr.forEach(c=>{const x=d.ctr.find(y=>y.id===c.id); if(x) Object.assign(x,c);}); if(j.conn) j.conn.forEach(c=>{const x=d.conn.find(y=>y.id===c.id); if(x) Object.assign(x,c);});
-  if(j.extras) j.extras.forEach(c=>{const x=d.extras.find(y=>y.id===c.id); if(x) Object.assign(x,c);}); if(j.ui) Object.assign(d.ui,j.ui); if(j.rep) Object.assign(d.rep,j.rep); if(j.gps) j.gps.forEach((c,i)=>{ if(d.gps[i]) Object.assign(d.gps[i],c); }); return d; } }catch(e){} return clone(DEF); }
+  if(j.extras) j.extras.forEach(c=>{const x=d.extras.find(y=>y.id===c.id); if(x) Object.assign(x,c);}); if(j.ui) Object.assign(d.ui,j.ui); d.ui.N=Math.max(1,Math.floor(d.ui.N)||1); if(j.rep) Object.assign(d.rep,j.rep); if(j.gps) j.gps.forEach((c,i)=>{ if(d.gps[i]) Object.assign(d.gps[i],c); }); return d; } }catch(e){} return clone(DEF); }
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
 
 const fmt=(x,d=2)=>Number(x).toLocaleString('es-CO',{minimumFractionDigits:d,maximumFractionDigits:d});
@@ -754,7 +754,8 @@ const svgOpen=(W,H,aria)=>`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="$
 // Explica por qué «Otros» es 0 al inicio y aparece más adelante: rutas alternas que superan el cupo gratis.
 function otrosTip(){
  const p=S.p.route_calls[S.ui.prof], per=p*(1-S.g.route_cache_hit), free=S.t.ors_free_month+S.t.tt_route_free, n0=Math.floor(free/per)+1;
- return `«Otros» es 0 al inicio porque las rutas alternas caben en el cupo gratis (${int(free)} al mes entre OpenRouteService y TomTom).\nCada cliente pide ≈ ${int(per)} rutas nuevas al mes; el cupo se agota hacia los ${int(n0)} clientes. Desde ahí se paga el excedente a TomTom (EUR ${fmt(S.t.tt_route,2)} por 1.000).\nTambién suma correo (solo si usa SES), WhatsApp y mapas de pago si los activa.`;
+ const cpm=43200/S.g.interval_traffic, zTT=S.t.tt_free/cpm, zHE=S.t.here_free/cpm;
+ return `«Otros» NO incluye el tráfico: TomTom y HERE van en la columna «Tráfico» y ya se pagan desde el primer cliente (su cupo gratis de ${int(S.t.tt_free)} y ${int(S.t.here_free)} consultas al mes solo cubre ≈ ${fmt(zTT,1)} y ${fmt(zHE,1)} zonas vigiladas).\nAquí «Otros» solo tiene las rutas alternas, que son otro servicio (OpenRouteService y TomTom Routing, cupo gratis conjunto de ${int(free)} rutas al mes). Cada cliente pide ≈ ${int(per)} rutas nuevas al mes: el cupo se agota hacia los ${int(n0)} clientes y desde ahí se paga el excedente (EUR ${fmt(S.t.tt_route,2)} por 1.000).\nTambién suma correo (solo si usa SES), WhatsApp y mapas de pago si los activa.`;
 }
 function legendHtml(items,tog){ return `<div class="lg2">${items.map(i=>tog?`<label class="lgi" ${i.tip?tipA(i.tip):''}><input type="checkbox" data-vz="${i.k}" ${VH[i.k]?'':'checked'}><i style="background:${i.c}"></i>${i.l}${i.tip?' ⓘ':''}</label>`:`<span class="lgi"><i style="background:${i.c}"></i>${i.l}</span>`).join('')}</div>`; }
 const tbl=(heads,rows)=>`<div class="scroll"><table><tr>${heads.map((h,i)=>`<th${i?'':' class="l"'}>${h}</th>`).join('')}</tr>${rows.map(r=>`<tr>${r.map((c,i)=>`<td${i?'':' class="l"'}>${c}</td>`).join('')}</tr>`).join('')}</table></div>`;
@@ -1038,10 +1039,11 @@ function update(){
 function bget(path){ if(path.startsWith('xt.')){ const e=S.extras.find(x=>x.id===path.slice(3)); return e?e.on:0; } return get(path); }
 function bset(path,v){ if(path.startsWith('xt.')){ const e=S.extras.find(x=>x.id===path.slice(3)); if(e) e.on=v?1:0; } else setp(path,v); }
 document.addEventListener('input',ev=>{ const e=ev.target; if(!e.dataset||!e.dataset.b) return;
- let v; if(e.type==='checkbox') v=e.checked?1:0; else if(e.type==='number'){ v=parseFloat(e.value); if(!isFinite(v)) return; } else v=e.dataset.int?parseInt(e.value):e.value;
+ let v; if(e.type==='checkbox') v=e.checked?1:0; else if(e.type==='number'){ v=parseFloat(e.value); if(!isFinite(v)) return; if(e.dataset.b==='ui.N'){ if(v<1) return; v=Math.floor(v); } } else v=e.dataset.int?parseInt(e.value):e.value; // clientes: mínimo 1 (con 0 hay divisiones entre cero)
  bset(e.dataset.b,v); save(); update(); });
 document.addEventListener('change',ev=>{ const e=ev.target;
  if(e.tagName==='SELECT'&&e.dataset.b){ bset(e.dataset.b,e.dataset.int?parseInt(e.value):e.value); save(); update(); }
+ if(e.dataset&&e.dataset.b==='ui.N') e.value=S.ui.N; // si quedó vacío o en 0, vuelve al último valor válido
  if(e.id==='scales-in'){ const a=[...new Set(e.value.split(/[,;\s]+/).map(x=>parseInt(x)).filter(x=>x>0))].sort((x,y)=>x-y).slice(0,12); if(a.length){ S.ui.scales=a; save(); } e.value=S.ui.scales.join(', '); update(); } });
 document.addEventListener('click',ev=>{ const t=ev.target;
  if(t.dataset&&t.dataset.open) openModal(t.dataset.open);
