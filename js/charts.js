@@ -7,6 +7,7 @@
 let CW=560;   // ancho de dibujo de las gráficas (se ajusta al recuadro donde van)
 const PAL={infra:'#2a78d6',traffic:'#eb6834',other:'#1baf7a',gps:'#eda100',staff:'#e87ba4'};
 const ARCHC={A:'#2a78d6',B:'#eb6834',C:'#1baf7a',D:'#eda100'};
+const CLOUDC={aws:'#eb6834',gcp:'#2a78d6',azure:'#1baf7a'};   // un color fijo por nube
 const INK='#0b0b0b',INK2='#52514e',MUTED='#898781',GRID='#e1e0d9',AXIS='#c3c2b7',SURF='#fcfcfb';
 const VU=()=>S.ui.unit==='cop'?S.t.trm:1;
 const vf=(x,d=0)=>S.ui.unit==='cop'?'COP '+fmt(x*S.t.trm,0):'US$ '+fmt(x,d);
@@ -86,7 +87,7 @@ const CH=[
  {id:'desglose',title:'¿Dónde se va el dinero?',
   what:'Reparte el costo mensual total entre sus partes: servidores, datos de tráfico, otros proveedores, dispositivos (equipo, SIM y plataforma) y personal.',
   how:'Cada barra es una parte; mientras más larga, más pesa. A la derecha está su valor y qué porcentaje del total es.',
-  build:()=>{ const N=S.ui.N,o=calc(N,S.ui.prof,S); const items=[{l:'Servidores y AWS',v:o.infra,c:PAL.infra},{l:'Datos de tráfico (HERE+TomTom)',v:o.traffic,c:PAL.traffic},{l:'Otros proveedores',v:o.other-o.gps,c:PAL.other}];
+  build:()=>{ const N=S.ui.N,o=calc(N,S.ui.prof,S); const items=[{l:'Servidores y '+CLS(),v:o.infra,c:PAL.infra},{l:'Datos de tráfico (HERE+TomTom)',v:o.traffic,c:PAL.traffic},{l:'Otros proveedores',v:o.other-o.gps,c:PAL.other}];
    if(o.gps>0) items.push({l:'Dispositivos (equipo, SIM, plataforma)',v:o.gps,c:PAL.gps}); if(o.staff>0) items.push({l:'Personal',v:o.staff,c:PAL.staff});
    const top=[...items].sort((a,b)=>b.v-a.v)[0];
    return {legend:'',svg:svgHBars(items,'Reparto del costo mensual por concepto'),note:`Con ${int(N)} cliente(s), lo que más pesa es <b>${top.l}</b>: ${vf(top.v)} al mes (${fmt(top.v/o.total*100,0)} % del total de ${vf(o.total)}).`,
@@ -95,13 +96,13 @@ const CH=[
   what:'El costo mensual de cada parte (y el total) para distintas cantidades de clientes.',
   how:'Cada línea es una parte del costo (vea la leyenda); la negra es el total. La escala vertical es logarítmica: cada raya vale 10 veces la anterior, así se ven juntas las cifras pequeñas y las grandes. Una línea que se aplana (como la de tráfico) significa que deja de crecer aunque haya más clientes. Puede apagar líneas con las casillas.',
   build:(tog)=>{ const sc=S.ui.scales,pi=S.ui.prof; const os=sc.map(n=>calc(n,pi,S));
-   const all=[{k:'infra',l:'Servidores y AWS',c:PAL.infra,v:os.map(o=>o.infra)},{k:'traffic',l:'Datos de tráfico',c:PAL.traffic,v:os.map(o=>o.traffic)},{k:'other',l:'Otros proveedores',tip:otrosTip(),c:PAL.other,v:os.map(o=>o.other-o.gps)},
+   const all=[{k:'infra',l:'Servidores y '+CLS(),c:PAL.infra,v:os.map(o=>o.infra)},{k:'traffic',l:'Datos de tráfico',c:PAL.traffic,v:os.map(o=>o.traffic)},{k:'other',l:'Otros proveedores',tip:otrosTip(),c:PAL.other,v:os.map(o=>o.other-o.gps)},
     {k:'gps',l:'Dispositivos',c:PAL.gps,v:os.map(o=>o.gps)},{k:'staff',l:'Personal',c:PAL.staff,v:os.map(o=>o.staff)}].filter(s=>s.v.some(x=>x>0.005));
    all.push({k:'total',l:'TOTAL',c:INK,v:os.map(o=>o.total)});
    const vis=all.filter(s=>!(tog&&VH[s.k])); const f=os[0],l=os[os.length-1];
    return {legend:legendHtml(all,tog),svg:vis.length?svgLines(sc,vis,{logY:true,xlabel:'Número de clientes',aria:'Costo mensual de cada parte y total según el número de clientes',xname:'Con',dec:0}):'<p class="small">Active al menos una línea en la leyenda.</p>',
     note:`Con ${int(sc[0])} cliente(s) cuesta ${vf(f.total)} al mes; con ${int(sc[sc.length-1])}, ${vf(l.total)}. El total sube, pero por cliente baja de ${vf(f.total/sc[0])} a ${vf(l.total/sc[sc.length-1])} (siguiente gráfica).`,
-    table:tbl(['Clientes','Servidores y AWS','Tráfico',`<span ${tipA(otrosTip())}>Otros ⓘ</span>`,'Dispositivos','Personal','TOTAL al mes','TOTAL al año'],sc.map((n,i)=>[int(n),vf(os[i].infra),vf(os[i].traffic),vf(os[i].other-os[i].gps),vf(os[i].gps),vf(os[i].staff),vf(os[i].total),vf(os[i].total*12)]))}; }},
+    table:tbl(['Clientes','Servidores y '+CLS(),'Tráfico',`<span ${tipA(otrosTip())}>Otros ⓘ</span>`,'Dispositivos','Personal','TOTAL al mes','TOTAL al año'],sc.map((n,i)=>[int(n),vf(os[i].infra),vf(os[i].traffic),vf(os[i].other-os[i].gps),vf(os[i].gps),vf(os[i].staff),vf(os[i].total),vf(os[i].total*12)]))}; }},
  {id:'promedio',title:'Cuánto cuesta cada cliente (promedio) al crecer',
   what:'El costo mensual promedio de UN cliente según cuántos clientes tenga XiGOS.',
   how:'Cada punto es una cantidad de clientes (abajo). Si la línea baja, atender a cada cliente cuesta menos, porque los costos fijos (el hub, las zonas del mapa) se reparten entre más clientes.',
@@ -129,7 +130,7 @@ const CH=[
   build:()=>{ const N=S.ui.N,pi=S.ui.prof; const base=calc(N,pi,S).total; const defs=[
     ['Territorio que vigila cada cliente',(s,f)=>{s.p.territory_km2=s.p.territory_km2.map(v=>v*f);}],['Territorio total del país a vigilar (tope)',(s,f)=>{s.g.ncap_km2*=f;}],['Minutos entre consultas de tráfico',(s,f)=>{s.g.interval_traffic*=f;}],
     ['% de consultas al proveedor de respaldo',(s,f)=>{s.g.backup_pct=Math.min(100,s.g.backup_pct*f);}],['Precio por 1.000 consultas (TomTom y HERE)',(s,f)=>{['here_t1','here_t2','here_t3','tt_t1','tt_t2'].forEach(k=>s.t[k]*=f);}],
-    ['Memoria que usa cada contenedor',(s,f)=>{s.ctr.forEach(c=>c.ram*=f);}],['Precio de los servidores de AWS',(s,f)=>{['ls_4','ls_8','ls_16','ls_32','ec2_t3l','rds_single','rds_multi'].forEach(k=>s.t[k]*=f);}],
+    ['Memoria que usa cada contenedor',(s,f)=>{s.ctr.forEach(c=>c.ram*=f);}],['Precio de los servidores de '+CLS(),(s,f)=>{const r=cloudRates(s); ['ls_4','ls_8','ls_16','ls_32','ec2_t3l','rds_single','rds_multi'].forEach(k=>r[k]*=f);}],
     ['Cantidad de dispositivos GPS',(s,f)=>{s.gps.forEach(g=>{g.qty*=f;});}],['Cantidad de bodycams',(s,f)=>{s.g.bc_qty*=f;}],['Costos de equipo, SIM y plataforma por dispositivo',(s,f)=>{s.gps.forEach(g=>{g.equip*=f;g.rent*=f;g.sim*=f;g.plat*=f;g.other*=f;g.install*=f;}); s.talkteam.forEach(l=>{l.value*=f;});}]];
    if(S.ui.analyst) defs.push(['Sueldo del analista de inteligencia',(s,f)=>{s.g.analyst_salary_cop*=f;}]);
    const items=defs.map(([l,fn])=>({l,lo:calc(N,pi,withS(s=>fn(s,.75))).total,hi:calc(N,pi,withS(s=>fn(s,1.25))).total})).sort((a,b)=>Math.max(Math.abs(b.lo-base),Math.abs(b.hi-base))-Math.max(Math.abs(a.lo-base),Math.abs(a.hi-base)));
@@ -137,15 +138,24 @@ const CH=[
    return {legend:`<div class="lg2"><span class="lgi"><i style="background:${PAL.infra}"></i>Si baja 25 %</span><span class="lgi"><i style="background:${PAL.traffic}"></i>Si sube 25 %</span></div>`,svg:svgTornado(items,base,'Sensibilidad del costo total a cada supuesto'),
     note:`Costo base: ${vf(base)} al mes. Lo que más lo mueve es <b>${t.l}</b>: de ${vf(Math.min(t.lo,t.hi))} a ${vf(Math.max(t.lo,t.hi))}.`,
     table:tbl(['Supuesto','Total si baja 25 %','Total si sube 25 %','Diferencia máxima'],items.map(i=>[i.l,vf(i.lo),vf(i.hi),vf(Math.max(Math.abs(i.lo-base),Math.abs(i.hi-base)))]))}; }},
- {id:'aws',title:'Las cuatro formas de alojar en AWS',
+ {id:'nubes',title:'AWS, Google Cloud y Azure',
+  what:'El costo mensual de infraestructura de la forma de alojar elegida, en cada una de las tres nubes, para cada cantidad de clientes.',
+  how:'Cada línea es una nube (vea la leyenda). Cuanto más abajo, más económica. La escala vertical es logarítmica (cada raya vale 10 veces la anterior). Si una nube dice «incompleto», sus precios pendientes cuentan como 0 y su línea queda por debajo de la realidad.',
+  build:(tog)=>{ const sc=S.ui.scales,pi=S.ui.prof,k=['','A','B','C','D'][S.ui.arch];
+   const all=CLOUD_IDS.map(id=>({k:'cl_'+id,l:CLOUDS[id].name+(CLOUDS[id].pending.length?' (incompleto)':''),short:id==='aws'?'AWS':id==='gcp'?'GCP':'Azure',c:CLOUDC[id],v:sc.map(n=>calc(n,pi,S,{cloud:id})[k])}));
+   const vis=all.filter(s=>!(tog&&VH[s.k])); const last=sc.length-1;
+   return {legend:legendHtml(all,tog),svg:vis.length?svgLines(sc,vis,{logY:true,xlabel:'Número de clientes',aria:'Costo mensual de infraestructura en cada nube',xname:'Con',dec:0}):'<p class="small">Active al menos una línea en la leyenda.</p>',
+    note:`Forma ${k} con ${int(sc[last])} clientes: ${all.map(s=>`${s.l} ${vf(s.v[last])}`).join(' · ')} al mes. Solo cambia la infraestructura; lo demás cuesta igual en cualquier nube.`,
+    table:tbl(['Clientes',...all.map(s=>s.l)],sc.map((n,i)=>[int(n),...all.map(s=>vf(s.v[i]))]))}; }},
+ {id:'aws',title:'Las cuatro formas de alojar (nube elegida)',
   what:'El costo mensual de infraestructura según cómo se aloje XiGOS, para cada cantidad de clientes.',
   how:'Cada línea es una forma de alojar (vea la leyenda). Cuanto más abajo, más económica. La escala vertical es logarítmica (cada raya vale 10 veces la anterior) para poder ver todas juntas.',
   build:(tog)=>{ const sc=S.ui.scales,pi=S.ui.prof; const os=sc.map(n=>calc(n,pi,S));
-   const all=[{k:'A',l:'A · Lightsail',short:'A',c:ARCHC.A,v:os.map(o=>o.A)},{k:'B',l:'B · EC2 + RDS',short:'B',c:ARCHC.B,v:os.map(o=>o.B)},{k:'C',l:'C · Alta disponibilidad',short:'C',c:ARCHC.C,v:os.map(o=>o.C)},{k:'D',l:'D · Fargate + RDS',short:'D',c:ARCHC.D,v:os.map(o=>o.D)}];
+   const tg=CL().tag; const all=[{k:'A',l:tg[1],short:'A',c:ARCHC.A,v:os.map(o=>o.A)},{k:'B',l:tg[2],short:'B',c:ARCHC.B,v:os.map(o=>o.B)},{k:'C',l:tg[3],short:'C',c:ARCHC.C,v:os.map(o=>o.C)},{k:'D',l:tg[4],short:'D',c:ARCHC.D,v:os.map(o=>o.D)}];
    const vis=all.filter(s=>!(tog&&VH[s.k])); const l=os[os.length-1];
    return {legend:legendHtml(all,tog),svg:svgLines(sc,vis,{logY:true,xlabel:'Número de clientes',aria:'Costo mensual de infraestructura por forma de alojar',xname:'Con',dec:0}),
-    note:`Con ${int(sc[sc.length-1])} clientes: A cuesta ${vf(l.A)}, B ${vf(l.B)}, C ${vf(l.C)} y D ${vf(l.D)} al mes. A es la más económica pero sin alta disponibilidad.`,
-    table:tbl(['Clientes','A · Lightsail','B · EC2+RDS','C · Alta disp.','D · Fargate'],sc.map((n,i)=>[int(n),vf(os[i].A),vf(os[i].B),vf(os[i].C),vf(os[i].D)]))}; }},
+    note:`Con ${int(sc[sc.length-1])} clientes: A cuesta ${vf(l.A)}, B ${vf(l.B)}, C ${vf(l.C)} y D ${vf(l.D)} al mes. A junta todo en un solo servidor, sin alta disponibilidad.`,
+    table:tbl(['Clientes',tg[1],tg[2],tg[3],tg[4]],sc.map((n,i)=>[int(n),vf(os[i].A),vf(os[i].B),vf(os[i].C),vf(os[i].D)]))}; }},
  {id:'trafico',title:'TomTom y HERE según las zonas vigiladas',
   what:'Cuánto cuesta cada proveedor de tráfico según cuántas zonas del mapa (celdas) se vigilan.',
   how:'Cada punto es una cantidad de zonas (abajo). Cada línea es un proveedor. Se ve dónde uno empieza a costar más que el otro y cómo suma el respaldo.',

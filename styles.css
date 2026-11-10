@@ -140,3 +140,25 @@ body{overflow-x:clip}
 .topbar{position:sticky;top:0;z-index:12;box-shadow:0 2px 8px rgba(15,47,87,.18)}
 @media (max-width:700px){.topbar{position:static;box-shadow:none} .tabs{position:sticky;top:0;z-index:12;box-shadow:0 2px 6px rgba(15,47,87,.15)}}
 @media print{.topbar{display:none!important}}
+
+/* Botón flotante para elegir la nube (AWS / Google Cloud / Azure): queda a la derecha en todas las pestañas y ventanas */
+#cloudfab{position:fixed;right:10px;top:50%;transform:translateY(-50%);z-index:30;display:flex;flex-direction:column;gap:6px;width:132px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px;box-shadow:0 6px 22px rgba(15,47,87,.28)}
+#cloudfab .fabt{font-size:11px;font-weight:700;color:var(--mut);text-align:center;letter-spacing:.02em}
+#cloudfab button{display:flex;flex-direction:column;align-items:flex-start;gap:1px;text-align:left;background:#fbfcff;color:var(--ink);border:2px solid var(--line);border-radius:10px;padding:6px 8px;cursor:pointer;line-height:1.25;width:100%}
+#cloudfab button b{font-size:13px;color:var(--dark)} #cloudfab button small{font-size:11.5px;color:var(--mut);font-weight:400}
+#cloudfab button:hover{border-color:#a9c4ec;background:#f2f7ff}
+#cloudfab button.on{border-color:var(--pri);background:var(--pri)} #cloudfab button.on b,#cloudfab button.on small{color:#fff}
+#cloudfab button.min small{font-weight:700} #cloudfab .fabn{font-size:10.5px;color:var(--mut);line-height:1.3;text-align:center}
+@media (max-width:700px){
+ #cloudfab{top:auto;bottom:8px;right:8px;left:8px;transform:none;width:auto;flex-direction:row;align-items:stretch;padding:6px;gap:4px}
+ #cloudfab .fabt,#cloudfab .fabn{display:none} #cloudfab button{flex:1;padding:5px 6px;min-width:0} #cloudfab button b{font-size:12px} #cloudfab button small{font-size:10.5px}
+ body.fabopen{padding-bottom:74px}
+}
+@media print{#cloudfab{display:none!important}}
+/* Pestaña para esconder / mostrar el selector de nube (se recuerda la elección) */
+#cloudfab .fabx{position:absolute;top:-24px;right:10px;width:auto;flex-direction:row;align-items:center;gap:4px;padding:2px 12px;border:1px solid var(--line);border-bottom:none;border-radius:12px 12px 0 0;background:#fff;color:var(--dark);font-size:12px;font-weight:700;line-height:1.5;box-shadow:0 -3px 8px rgba(15,47,87,.12)}
+#cloudfab .fabx:hover{background:#f2f7ff}
+#cloudfab.closed{width:auto;padding:0;gap:0;border:none;background:none;box-shadow:none}
+#cloudfab.closed>*:not(.fabx){display:none}
+#cloudfab.closed .fabx{position:static;padding:7px 14px;border:1px solid var(--line);border-radius:20px;box-shadow:0 4px 14px rgba(15,47,87,.3);font-size:13px}
+@media (max-width:700px){ #cloudfab.closed{left:auto;right:8px;bottom:10px} }

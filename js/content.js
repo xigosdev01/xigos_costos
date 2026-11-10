@@ -2,11 +2,12 @@
    TEXTOS Y TABLAS FIJAS: formas de alojar en AWS, glosario, supuestos, tamaños de operación, qué falta saber.
    (Script clásico: comparte el ámbito global con los demás archivos de js/; el orden de carga está en index.html.)
    ============================================================ */
-const FORMAS=`<table><tr><th class="l">Opción</th><th class="l">Cómo es</th><th class="l">Ventaja</th><th class="l">Desventaja</th></tr>
- <tr><td class="l"><b>A · Lightsail</b></td><td class="l">Un servidor «todo incluido» de AWS donde corren todas las cajas juntas (incluida la base de datos).</td><td class="l">La más económica; precio fijo; la transferencia está incluida.</td><td class="l">Si el servidor falla, todo se cae hasta restaurar. Todo lo administra su equipo.</td></tr>
- <tr><td class="l"><b>B · EC2 + RDS</b></td><td class="l">Servidores EC2 para los programas y una base de datos administrada por AWS (RDS) compartida.</td><td class="l">AWS cuida la base de datos (respaldos, parches).</td><td class="l">Más cara (RAM más costosa + base aparte + balanceador).</td></tr>
- <tr><td class="l"><b>C · Alta disponibilidad</b></td><td class="l">Como B pero duplicada en dos zonas de AWS, con base de datos de respaldo en vivo.</td><td class="l">Sigue funcionando si una zona falla.</td><td class="l">Cuesta el doble o más que B.</td></tr>
- <tr><td class="l"><b>D · Fargate</b></td><td class="l">AWS ejecuta cada contenedor por el equipo XiGOS (sin que el equipo administre servidores) + base RDS.</td><td class="l">Cero administración de servidores; cada caja se cobra exacta.</td><td class="l">Cada caja siempre encendida sale mucho más cara que en un servidor compartido.</td></tr></table>`;
+const FORMAS=()=>{ const aws=S.ui.cloud==='aws', n=CLS(), l=CL().l, T=CL().tag;
+ return `<table><tr><th class="l">Opción</th><th class="l">Cómo es</th><th class="l">Ventaja</th><th class="l">Desventaja</th></tr>
+ <tr><td class="l"><b>${T[1]}</b></td><td class="l">${aws?'Un servidor «todo incluido» de AWS donde corren todas las cajas juntas (incluida la base de datos).':`Una sola ${l.vm} (con su disco y su IP) donde corren todas las cajas juntas, incluida la base de datos. ${n} no tiene un paquete «todo incluido» como Lightsail: el costo es la suma de máquina + disco + IP + transferencia.`}</td><td class="l">${aws?'La más económica; precio fijo; la transferencia está incluida.':'Pocas piezas y la más sencilla de operar.'}</td><td class="l">Si el servidor falla, todo se cae hasta restaurar. Todo lo administra su equipo.</td></tr>
+ <tr><td class="l"><b>${T[2]}</b></td><td class="l">Servidores (${l.srv}) para los programas y una base de datos administrada por ${n} (${l.db}) compartida.</td><td class="l">${n} cuida la base de datos (respaldos, parches).</td><td class="l">Más cara (servidores + base aparte + balanceador).</td></tr>
+ <tr><td class="l"><b>${T[3]}</b></td><td class="l">Como B pero duplicada en dos ${l.zones}, con base de datos de respaldo en vivo.</td><td class="l">Sigue funcionando si una zona falla.</td><td class="l">Cuesta el doble o más que B.</td></tr>
+ <tr><td class="l"><b>${T[4]}</b></td><td class="l">${n} ejecuta cada contenedor (${l.ctr}) por el equipo XiGOS, sin que el equipo administre servidores, + base ${l.db}.</td><td class="l">Cero administración de servidores.</td><td class="l">Cada caja siempre encendida suele salir más cara que en un servidor compartido.</td></tr></table>`; };
 
 const GLOSARIO=`<dl class="gl">
   <dt>Operación pequeña, mediana o grande</dt><dd>Es el tamaño de la operación de UN cliente: cuántas zonas del mapa vigila, cuántos usuarios usan el panel, cuántas horas al día reportan sus GPS y cuántos correos y rutas alternas genera al mes. Se elige arriba y los números exactos se ven y cambian en «Supuestos y tamaños de uso». <b>No es la cantidad de dispositivos</b>: esa se registra en las fichas de dispositivos.</dd>
@@ -74,14 +75,17 @@ const PENDIENTES=`<table><tr><th class="l">Dato faltante</th><th class="l">Por q
  <tr><td class="l">Intermediario (BSP) de WhatsApp, Microsoft 365, dominio, soporte AWS, Savings Plans</td><td class="l">Costos fijos menores</td><td class="l">Cotizar</td></tr>
  <tr><td class="l">Memoria real de cada contenedor y tamaño real de las tablas</td><td class="l">Es el supuesto que más mueve el costo de infraestructura</td><td class="l">Construir las imágenes y medir con <code>docker stats</code>; consultar tamaños en la base del cliente actual (PMI)</td></tr>
  <tr><td class="l">Cuántos dispositivos GPS y bodycams reales tiene cada cliente y cada cuánto reportan</td><td class="l">Define el costo de equipos y plataformas, el almacenamiento y las consultas</td><td class="l">Dato de los clientes; prueba con vehículos en movimiento</td></tr>
+ <tr><td class="l">Azure: unidad de precio de PostgreSQL (¿por servidor o por núcleo?) y de Container Apps. Google Cloud: máquinas, discos, NAT y almacenamiento vienen de una tabla abierta basada en la API oficial (no de la página de Google)</td><td class="l">Cambian el costo de las formas B, C y D en esas nubes</td><td class="l">Calculadora oficial de Azure; calculadora oficial de Google (región southamerica-east1); detalle en el documento 13</td></tr>
+ <tr><td class="l">Latencia real desde Colombia a São Paulo en cada nube, y qué servicios exclusivos de AWS usa la aplicación (SES, S3…)</td><td class="l">Define si cambiar de nube es viable</td><td class="l">Prueba de ping/traceroute desde una oficina de Fortox; preguntar al equipo de desarrollo</td></tr>
  <tr><td class="l">Impuestos (IVA, retenciones) de servicios del exterior</td><td class="l">Costo final en pesos</td><td class="l">Contador</td></tr></table>
  <div class="box ok"><b>Recomendación para empezar (hasta ~10 clientes; previsión de 4 en 12 meses):</b> alojamiento A (un Lightsail de São Paulo), respaldos a S3. Pasar a B/C/D solo por requisito de disponibilidad, y antes medir la memoria real de los contenedores.</div>`;
-const CONN_RULES=()=>`<ul>
- <li><b>Entrada a AWS (lo que llega):</b> gratis.</li>
- <li><b>Salida a Internet:</b> US$ ${S.t.dto} por GB en B, C y D (el primer GB del mes es gratis). En Lightsail (A) viene incluida (hasta 4 TB en el plan de 4 GB).</li>
- <li><b>Entre contenedores en el mismo servidor/zona:</b> gratis. <b>Entre dos zonas de AWS</b> (solo en C): US$ ${S.t.inter_az} por GB en cada sentido.</li>
- <li><b>«Puerta de salida» NAT</b> (C y D): US$ ${S.t.nat} por hora (≈ US$ ${fmt(S.t.nat*S.t.hours)} al mes) <b>más</b> US$ ${S.t.nat_gb} por cada GB que pasa.</li>
- <li><b>IP pública:</b> US$ ${S.t.ipv4} por hora cada una (≈ US$ ${fmt(S.t.ipv4*S.t.hours)} al mes). Lightsail ya la incluye.</li>
- <li><b>Hacia los proveedores de datos:</b> lo que cobra AWS es mínimo; lo que cobra cada proveedor está en la sección de proveedores.</li>
- <li><b>Mapas de OpenStreetMap:</b> el navegador del usuario los descarga directo; no pasan por AWS.</li></ul>`;
+const CONN_RULES=()=>{ const t=effT(S), aws=S.ui.cloud==='aws', n=CLS();
+ return `<ul>
+ <li><b>Entrada a ${n} (lo que llega):</b> ${aws?'gratis.':'gratis (dato de AWS; en '+n+' no se verificó expresamente).'}</li>
+ <li><b>Salida a Internet:</b> US$ ${t.dto} por GB en ${aws?'B, C y D':'todas las formas'}${aws?' (el primer GB del mes es gratis). En Lightsail (A) viene incluida (hasta 4 TB en el plan de 4 GB).':(t.dto_free>0?`; los primeros ${fmt(t.dto_free,0)} GB al mes son gratis.`:'. No se verificó un cupo gratis mensual.')}</li>
+ <li><b>Entre contenedores en el mismo servidor/zona:</b> gratis. <b>Entre dos zonas de ${n}</b> (solo en C): ${t.inter_az>0?`US$ ${t.inter_az} por GB en cada sentido.`:'precio PENDIENTE (hoy cuenta como 0).'}</li>
+ <li><b>«Puerta de salida» NAT</b> (C y D): US$ ${t.nat} por hora (≈ US$ ${fmt(t.nat*t.hours)} al mes) <b>más</b> US$ ${t.nat_gb} por cada GB que pasa.</li>
+ <li><b>IP pública:</b> US$ ${t.ipv4} por hora cada una (≈ US$ ${fmt(t.ipv4*t.hours)} al mes). ${aws?'Lightsail ya la incluye.':'En la forma A ya está sumada dentro del precio de la máquina.'}</li>
+ <li><b>Hacia los proveedores de datos:</b> lo que cobra ${n} es mínimo; lo que cobra cada proveedor está en la sección de proveedores.</li>
+ <li><b>Mapas de OpenStreetMap:</b> el navegador del usuario los descarga directo; no pasan por ${n}.</li></ul>`; };
 

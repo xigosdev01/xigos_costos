@@ -23,24 +23,24 @@ function buildReport(){
   }
   sections.push(b+'</section>');
  }
- if(r.aws) sections.push(`<section>${H('Servidores en AWS')}<p>${SCENLINE()}</p>${FORMAS}${outRank(S.ui.N,S.ui.prof)}${outRecommend(S.ui.N,S.ui.prof)}${outScale(S.ui.N,S.ui.prof)}${outAws()}</section>`);
+ if(r.aws) sections.push(`<section>${H('Servidores en '+CLS())}<p>${SCENLINE()}</p>${FORMAS()}${outRank(S.ui.N,S.ui.prof)}${outRecommend(S.ui.N,S.ui.prof)}${outScale(S.ui.N,S.ui.prof)}${outAws()}</section>`);
  if(r.containers) sections.push(`<section>${H('Costo de mantener cada contenedor')}${outContainers()}</section>`);
- if(r.conexiones) sections.push(`<section>${H('Conexiones entre contenedores')}${outConn()}<h3>Reglas de cobro de AWS</h3>${CONN_RULES()}</section>`);
- if(r.awsrates) sections.push(`<section>${H('Tarifas de AWS en São Paulo')}<table><tr><th class="l">Servicio</th><th class="l">¿Para qué sirve?</th><th class="l">¿Cómo cobra?</th><th>Precio (USD)</th></tr>${AWSROWS.map(([p,nm,w,hh])=>`<tr><td class="l"><b>${nm}</b></td><td class="l">${w}</td><td class="l">${hh}</td><td>${fmtN(get(p))}</td></tr>`).join('')}</table></section>`);
+ if(r.conexiones) sections.push(`<section>${H('Conexiones entre contenedores')}${outConn()}<h3>Reglas de cobro de ${CLS()}</h3>${CONN_RULES()}</section>`);
+ if(r.awsrates) sections.push(`<section>${H('Tarifas de '+CLS()+' en '+CL().region)}${cloudNote()}<table><tr><th class="l">Servicio</th><th class="l">¿Para qué sirve?</th><th class="l">¿Cómo cobra?</th>${S.ui.cloud==='aws'?'':'<th class="l">Confianza</th>'}<th>Precio (USD)</th></tr>${rateRows().map(([p,nm,w,hh,c])=>`<tr><td class="l"><b>${nm}</b></td><td class="l">${w}</td><td class="l">${hh}</td>${confTag(c)}<td>${fmtN(get(p))}</td></tr>`).join('')}</table></section>`);
  if(r.proy||r.comp){
   let b=`<section>${H('Proyección por número de clientes')}<p class="small">${SCENLINE()}</p>`;
   if(r.proy) b+=projTable(S.ui.prof);
-  if(r.comp) b+=`<h3>Las cuatro formas de alojar en AWS (USD al mes, solo infraestructura)</h3>${outArchs()}<h3>Las tres operaciones por cliente: pequeña, mediana y grande (al mes, total)</h3>${outProfs()}`;
+  if(r.comp) b+=`<h3>Las cuatro formas de alojar en ${CLS()} (${CU()} al mes, solo infraestructura)</h3>${outArchs()}<h3>Comparación de las tres nubes</h3>${outClouds()}<h3>Las tres operaciones por cliente: pequeña, mediana y grande (al mes, total)</h3>${outProfs()}`;
   sections.push(b+'</section>');
  }
  if(r.supuestos) sections.push(`<section>${H('Supuestos y tamaños de uso')}<table><tr><th class="l">Supuesto</th><th class="l">Por qué importa</th><th>Valor</th></tr>${SUPS.map(([p,l,w])=>`<tr><td class="l">${l}</td><td class="l">${w}</td><td>${fmtN(get(p))}</td></tr>`).join('')}</table>
   <table><tr><th class="l">Operación por cliente</th><th>Pequeña</th><th>Mediana</th><th>Grande</th><th>Personalizada</th><th class="l">Por qué este valor</th></tr>${PROFROWS.map(([k,l,w])=>`<tr><td class="l">${l}</td>${[0,1,2,3].map(i=>`<td>${fmtN(S.p[k][i])}</td>`).join('')}<td class="l small">${w}</td></tr>`).join('')}</table>
-  <p class="small">TRM ${fmt(S.t.trm)} COP por USD (datos.gov.co, 2026-11-06); EUR/USD ${S.t.eurusd} (BCE, 2026-11-06).</p></section>`);
+  <p class="small">TRM ${fmt(S.t.trm)} COP por USD (datos.gov.co, ${S.ui.fx_trm_date}); EUR/USD ${S.t.eurusd} (BCE, ${S.ui.fx_eur_date}).</p></section>`);
  if(r.pendientes) sections.push(`<section>${H('Qué falta saber (no se inventó ningún valor)')}${PENDIENTES}</section>`);
- h=`<div class="rhead"><h1>Reporte de costos XiGOS</h1><div class="sub">Generado el ${when} · precios consultados el 2026-11-06 · TRM ${fmt(S.t.trm)} COP/USD · USD sin IVA · cifras aproximadas</div></div>`+(sections.join('')||'<p class="box">No hay secciones seleccionadas. Marque «En el reporte» en las fichas de la pestaña Configuración.</p>');
+ h=`<div class="rhead"><h1>Reporte de costos XiGOS</h1><div class="sub">Generado el ${when} · precios consultados el 2026-11-06 (Google Cloud y Azure: 2026-11-10) · TRM ${fmt(S.t.trm)} COP/USD (${S.ui.fx_trm_date}) · USD sin IVA · cifras aproximadas</div></div>`+(sections.join('')||'<p class="box">No hay secciones seleccionadas. Marque «En el reporte» en las fichas de la pestaña Configuración.</p>');
  return h;
 }
-const SCENLINE=()=>`Escenario: <b>${int(S.ui.N)} cliente(s)</b>, operación <b>${PROF_NAMES[S.ui.prof]}</b> por cliente, alojamiento <b>${ARCH[S.ui.arch]}</b>.`;
+const SCENLINE=()=>`Escenario: <b>${int(S.ui.N)} cliente(s)</b>, operación <b>${PROF_NAMES[S.ui.prof]}</b> por cliente, nube <b>${CLS()}</b>, alojamiento <b>${ARCH[S.ui.arch]}</b>.`;
 // Explica el tamaño de la zona consultada, el máximo permitido y cuántas zonas/consultas ahorra frente a la celda de referencia.
 function outCellInfo(){
  const g=S.g, N=S.ui.N, pi=S.ui.prof; const o=calc(N,pi,S);
@@ -68,7 +68,7 @@ function outTrafficCompare(){
 
 function ctrRow(c){
  const i=S.ctr.indexOf(c);
- const fg=c.fg?`${inp('ctr.'+i+'.cpu',0.05,'w')}</td><td>${inp('ctr.'+i+'.mem',0.25,'w')}`:`<span class="small">no aplica</span></td><td><span class="small">${c.db?'va en RDS':'—'}</span>`;
+ const fg=c.fg?`${inp('ctr.'+i+'.cpu',0.05,'w')}</td><td>${inp('ctr.'+i+'.mem',0.25,'w')}`:`<span class="small">no aplica</span></td><td><span class="small">${c.db?'va en '+CL().l.db:'—'}</span>`;
  return `<tr><td class="l"><b>${esc(c.name)}</b></td><td class="l">${esc(c.what)}</td><td>${inp('ctr.'+i+'.ram',0.05,'w')}</td><td>${fg}</td></tr>`;
 }
 const AWSROWS=[
@@ -88,5 +88,12 @@ const AWSROWS=[
  ['t.cw_logs','CloudWatch Logs','Guarda los registros de funcionamiento para diagnosticar fallas.','USD por GB recibido'],
  ['t.r53_zone','Route 53: zona DNS','Traduce el nombre (ej. xigos.dominio.co) a la dirección del servidor.','USD por zona al mes'],['t.secret','Secrets Manager','Guarda claves y contraseñas de forma segura (opcional).','USD por clave al mes'],
  ['t.hours','Horas por mes','Convención de facturación de AWS.','horas']];
-function awsTable(){ return AWSROWS.map(([p,n,w,h])=>`<tr><td class="l"><b>${n}</b></td><td class="l">${w}</td><td class="l">${h}</td><td>${inp(p,'any','w')}</td></tr>`).join(''); }
+// Filas de tarifas de la nube elegida: [ruta del valor, nombre, para qué sirve, cómo cobra, confianza]. En AWS la ruta es t.<clave>; en Google Cloud y Azure, tc.<nube>.<clave>.
+function rateRows(){ const cl=S.ui.cloud; if(cl==='aws') return AWSROWS.map(r=>[...r,'']);
+ const ov=CLOUDROWS[cl], cf=CLOUD_CONF[cl], seen=new Set(), out=[];
+ for(const [p,n,w,h] of AWSROWS){ const k=p.slice(2); seen.add(k); const o=ov[k]; out.push(['tc.'+cl+'.'+k,o?o[0]:n,o?o[1]:w,o?o[2]:h,cf[k]||cf.def]); }
+ for(const k in ov) if(!seen.has(k)) out.push(['tc.'+cl+'.'+k,ov[k][0],ov[k][1],ov[k][2],cf[k]||cf.def]);
+ return out; }
+const confTag=c=>c?`<td class="l"><b style="color:${c==='PENDIENTE'?'#b3261e':c==='BAJA'?'#a15c00':'inherit'}">${c}</b></td>`:'';
+function awsTable(){ return rateRows().map(([p,n,w,h,c])=>`<tr><td class="l"><b>${n}</b></td><td class="l">${w}</td><td class="l">${h}</td>${confTag(c)}<td>${inp(p,'any','w')}</td></tr>`).join(''); }
 

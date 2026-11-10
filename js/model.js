@@ -14,7 +14,7 @@ const DEF = {
   ls_4:23.54, ls_8:43.16, ls_16:82.42, ls_32:160.91, ls_disk:0.10,
   ec2_t3l:0.1344, rds_single:0.275, rds_multi:0.55, rds_gp3_s:0.219, rds_gp3_m:0.438, ebs_gp3:0.152,
   alb:0.034, lcu:0.011, nat:0.093, nat_gb:0.093, s3:0.0405, dto:0.25, cw_logs:0.90, ses:0.00016, hours:730,
-  fg_vcpu:0.0696, fg_gb:0.0076, ipv4:0.005, inter_az:0.01, ecr:0.10, r53_zone:0.50, secret:0.40,
+  fg_vcpu:0.0696, fg_gb:0.0076, ipv4:0.005, inter_az:0.01, ecr:0.10, r53_zone:0.50, secret:0.40, dto_free:0, ecr_fixed:0, logs_free:0,
   ows_req:0.003, apify_starter:19, apify_scale:199, apify_business:999 },
  g: { ncap_km2:347800, cell_deg_tt:0.75, cell_deg_here:0.75, cell_deg_weather:0.5, cell_safety:90, interval_traffic:30, qph_traffic:2, interval_weather:60, qph_weather:1, qph_ows:1, wa_mkt_pct:0, usable:0.8, dbs_per_rds:25, backup_factor:2.8, row_bytes:250, retention_days:30,
   base_gb:2.2, os_gb:15, logs_gb_server:5, logs_gb_task:1, ebs_app_gb:30, rds_os_gb:20, route_cache_hit:0.5,
@@ -23,6 +23,28 @@ const DEF = {
   ows_calls_cell:720, apify_plan:1, inrix_usd:0, gmaps_usd:0,
   backup_primary:1, backup_pct:100, gps_life:36, bc_gb:0, bc_qty:0, bc_scope:'total', analyst_salary_cop:0, analyst_factor:1, analyst_count:1, analyst_per_clients:0,
   m365_usd:0, rk_cost:3, rk_avail:2, rk_backup:2, rk_ops:1, rk_scale:1 },
+ // Tarifas de infraestructura de OTRAS nubes (São Paulo / Brasil Sur), consultadas el 2026-11-10. Cada clave reemplaza a la de AWS con el mismo nombre (ver js/clouds.js para fuentes y confianza).
+ // Un 0 marcado PENDIENTE en js/clouds.js significaría «precio sin verificar» (NO es gratis). Mes = 730 h.
+ tc: {
+  gcp: { // Máquinas, discos, IP, NAT y almacenamiento: tabla abierta generada el 2026-11-05 desde la API oficial de Google (MEDIA; el egreso 0,19, la IP sin usar 0,015 y el disco SSD 0,255 coinciden con las páginas oficiales).
+   // Cloud SQL, balanceador, Cloud Run, registros, DNS, secretos, Artifact Registry y tráfico entre zonas: leídos de las páginas oficiales de Google con región São Paulo el 2026-11-10 (ALTA).
+   // Opción A = servidor e2 + disco balanced del tamaño del paquete + IP pública: e2-medium 38.83+80x0.15+3.65 · e2-standard-2 77.65+160x0.15+3.65 · e2-standard-4 155.30+320x0.15+3.65 · e2-standard-8 310.60+640x0.15+3.65
+   ls_4:54.48, ls_8:105.30, ls_16:206.95, ls_32:410.25, ls_disk:0.15,
+   ec2_t3l:0.1063704, ebs_gp3:0.15, ipv4:0.005,
+   rds_single:0.208, rds_multi:0.4158, rds_gp3_s:0.255, rds_gp3_m:0.51,   // Cloud SQL Enterprise, 2 vCPU (0,062/h c/u) + 8 GiB (0,0105/GiB-h); alta disponibilidad 2 x 0,1239 + 8 x 0,021; disco SSD 0,000349315 y 0,00069863 por GiB-hora
+   alb:0.025, lcu:0,                                                    // Cloud Load Balancing: 0,025/h las primeras 5 reglas; datos procesados 0,012/GiB (no modelado: centavos)
+   nat:0.0448, nat_gb:0.045, s3:0.035, dto:0.19, dto_free:0, cw_logs:0.50, logs_free:50, inter_az:0.01,   // Cloud Logging 0,50/GiB con 50 GiB gratis por proyecto
+   fg_vcpu:0.07776, fg_gb:0.00864,                                      // Cloud Run, CPU siempre asignada, Tier 2 (São Paulo): 0,0000216 por vCPU-s y 0,0000024 por GiB-s
+   ecr:0.10, ecr_fixed:0, r53_zone:0.20, secret:0.06, hours:730 },      // Artifact Registry 0,10/GB-mes; Cloud DNS 0,20/zona; Secret Manager 0,06 por versión activa
+  azure: { // Fuente: API pública oficial de precios de Azure, región Brazil South (ALTA salvo lo marcado)
+   // Opción A = VM + disco Standard SSD + IP: B2s 49.06+E10 17.92+3.65 · B2ms 97.82+E15 35.84+3.65 · B4ms 196.37+E20 71.68+3.65 · B8ms 392.74+E30 143.36+3.65
+   ls_4:70.63, ls_8:137.31, ls_16:271.70, ls_32:539.75, ls_disk:0.14,
+   ec2_t3l:0.134, ebs_gp3:0.14, ipv4:0.005,
+   rds_single:0.24, rds_multi:0.48, rds_gp3_s:0.2185, rds_gp3_m:0.437, // PostgreSQL Flexible, General Purpose D2ds v5 (la alta disponibilidad exige General Purpose; el servidor de reserva se cobra igual) — MEDIA
+   alb:0.40, lcu:0.008,                                                 // Application Gateway Standard v2 (equivale al ALB); el balanceador L4 cuesta 0,025/h pero no enruta por dominio
+   nat:0.045, nat_gb:0.045, s3:0.0326, dto:0.181, dto_free:100, cw_logs:4.6, logs_free:5, inter_az:0.01,
+   fg_vcpu:0.0864, fg_gb:0.0108,                                        // Container Apps (consumo), tarifa «activa» = cota máxima; MEDIA
+   ecr:0, ecr_fixed:20.27, r53_zone:0.50, secret:0, hours:730 } },      // DNS zona pública 0,50 (primeras 25); Key Vault no cobra por secreto (0,03 por 10 mil operaciones)
  // Operación de UN cliente: [pequeña, mediana, grande, personalizada]. La 4.ª («personalizada») arranca como copia de la mediana y es la que el usuario ajusta a su medida.
  p: { territory_km2:[2320,4640,9280,4640],  hours_day:[8,12,24,12], gps_nominal:[60,30,10,30], users:[3,8,20,8], tiles_pu:[1500,3000,6000,3000],
   emails:[200,600,1500,600], wa_msgs:[100,500,1000,500], route_calls:[100,500,2000,500], support_h:[1,2,4,2], onboard_h:[6,12,20,12] },
@@ -71,10 +93,10 @@ const DEF = {
              {name:'Cargo fijo de la cuenta corporativa',basis:'fixed_month',value:0,cur:'COP',size:0,on:1},
              {name:'Paquete por bloque de bodycams',basis:'block_month',value:0,cur:'COP',size:0,on:1},
              {name:'Almacenamiento o transferencia de video (por GB)',basis:'gb_month',value:0,cur:'USD',size:0,on:1} ],
- ui: { N:1, prof:1, arch:1, ses:0, wa:0, tiles:0, gps:1, gps_amort:1, analyst:0, sd_on:0, unit:'usd', scales:[1,5,10,25,50,100,250,500,1000] },
+ ui: { N:1, prof:1, arch:1, cloud:'aws', fx_trm_date:'2026-11-06', fx_eur_date:'2026-11-06', ses:0, wa:0, tiles:0, gps:1, gps_amort:1, analyst:0, sd_on:0, unit:'usd', scales:[1,5,10,25,50,100,250,500,1000] },
  // qué secciones salen en el reporte impreso (1 = incluir)
  rep: { resumen:1, glosario:0, diagrama:1, traffic:1, ors:1, owm:1, eje:1, talkteam:1, osm:0, mail:0, push:0, wa:0, ows:0, wazeoff:0, apify:0, inrix:0, gmaps:0, gov:0,
-        personal:1, graficas:1, gr_desglose:1, gr_crecimiento:1, gr_promedio:1, gr_vehiculo:1, gr_sens:1, gr_aws:0, gr_trafico:0, gr_analista:1, aws:1, containers:1, conexiones:0, awsrates:0, proy:1, comp:1, supuestos:0, pendientes:1 }
+        personal:1, graficas:1, gr_desglose:1, gr_crecimiento:1, gr_promedio:1, gr_vehiculo:1, gr_sens:1, gr_aws:0, gr_nubes:1, gr_trafico:0, gr_analista:1, aws:1, containers:1, conexiones:0, awsrates:0, proy:1, comp:1, supuestos:0, pendientes:1 }
 };
 const clone = o => JSON.parse(JSON.stringify(o));
 
@@ -103,8 +125,12 @@ function ramSums(s){
  for(const c of s.ctr){ if(c.scope==='inst'){ r.A+=c.ram; if(!c.db) r.B+=c.ram; } else { r.hA+=c.ram; if(!c.db) r.hB+=c.ram; } }
  return r;
 }
-function fargateMonth(s, scope){ // USD/mes de los contenedores Fargate de una instancia (scope inst) o del hub
- const t=s.t,g=s.g; let u=0;
+// Tarifas vigentes según la nube elegida: las de AWS son s.t; las de Google Cloud / Azure reemplazan solo las claves de infraestructura (s.tc[nube]).
+const effT=(s,cl)=>{ cl=cl||s.ui.cloud||'aws'; return cl==='aws'||!s.tc||!s.tc[cl]?s.t:Object.assign({},s.t,s.tc[cl]); };
+// Objeto editable de tarifas de la nube elegida (para pantallas y sensibilidad).
+const cloudRates=(s,cl)=>{ cl=cl||s.ui.cloud||'aws'; return cl==='aws'||!s.tc||!s.tc[cl]?s.t:s.tc[cl]; };
+function fargateMonth(s, scope, t){ // USD/mes de los contenedores (Fargate / Cloud Run / Container Apps) de una instancia (scope inst) o del hub
+ t=t||s.t; const g=s.g; let u=0;
  for(const c of s.ctr){ if(c.scope!==scope||!c.fg) continue;
   const perH=c.cpu*t.fg_vcpu+c.mem*t.fg_gb;
   u += c.fg===2 ? perH*(g.migrate_min/60) : perH*t.hours;
@@ -116,10 +142,10 @@ function fargateTasks(s, scope){ return s.ctr.filter(c=>c.scope===scope&&c.fg===
 const ARCH = {1:'A · Un servidor Lightsail (Docker Compose)',2:'B · Servidores EC2 + base RDS',3:'C · B con alta disponibilidad (2 zonas)',4:'D · Contenedores administrados (ECS Fargate) + RDS'};
 
 function calc(N, pi, s, opt){
- const t=s.t,g=s.g; opt=opt||{};
+ const g=s.g; opt=opt||{}; const cl=opt.cloud||s.ui.cloud||'aws', t=effT(s,cl);
  const arch=opt.arch||s.ui.arch, wa=opt.wa===undefined?s.ui.wa:opt.wa, tiles=opt.tiles===undefined?s.ui.tiles:opt.tiles;
  const p={}; for(const k in s.p) p[k]=s.p[k][pi];
- const o={N}; const H=t.hours; const u=g.usable; const R=ramSums(s);
+ const o={N,cloud:cl}; const H=t.hours; const u=g.usable; const R=ramSums(s);
  // Dispositivos: GPS = suma de las cantidades de los proveedores (qty total, o por cliente si scope='client'). Bodycams = cantidad de la ficha Team Talk.
  // opt.gps_total (solo para gráficas/sensibilidad) reparte un total de GPS distinto en proporción a las cantidades (o al primer proveedor si todas están en 0).
  const rawQ=s.gps.map(gp=>(+gp.qty||0)*(gp.scope==='client'?N:1)), baseG=rawQ.reduce((a,b)=>a+b,0);
@@ -166,33 +192,35 @@ function calc(N, pi, s, opt){
  else {srv=Math.ceil(need/(u*32));cost=srv*t.ls_32;disk=srv*640;}
  o.A_servers=srv; const xdisk=Math.max(0,o.data_gb+g.os_gb*srv-disk)*t.ls_disk;
  const dnsFix=t.r53_zone+g.domain_usd_month;
- o.A_parts={servidores:cost,disco_extra:xdisk,respaldos:o.backups,dns_dominio:dnsFix};
- o.A=cost+xdisk+o.backups+dnsFix;
+ const dtoCost=Math.max(0,egressGB-t.dto_free)*t.dto;   // dto_free: GB gratis al mes (Azure: 100; AWS y Google: 0 porque no se verificó un cupo)
+ // En Lightsail la transferencia viene incluida en el plan; en Google Cloud y Azure no existe ese paquete, así que la salida a Internet se cobra también en A.
+ o.A_parts=cl==='aws'?{servidores:cost,disco_extra:xdisk,respaldos:o.backups,dns_dominio:dnsFix}:{servidores:cost,disco_extra:xdisk,transferencia_salida:dtoCost,respaldos:o.backups,dns_dominio:dnsFix};
+ o.A=Object.values(o.A_parts).reduce((a,b)=>a+b,0);
  // ---- B / C / D comunes
  const appneed=R.hB+N*R.B; const napp=Math.ceil(appneed/(u*8)); const rdsn=Math.ceil((1+N)/g.dbs_per_rds);
  o.B_napp=napp; o.B_rds=rdsn;
  const albFix=t.alb*H, albLcu=g.lcu_avg*t.lcu*H, albIp=2*t.ipv4*H;
  const secrets=g.use_secrets?(N*g.secrets_per_instance+8)*t.secret:0;
- const ecr=g.ecr_gb*t.ecr;
+ const ecr=g.ecr_gb*t.ecr+t.ecr_fixed;
  const common={ecr:ecr,dns_dominio:dnsFix,secretos:secrets,respaldos:o.backups};
- const dtoCost=egressGB*t.dto;
+ const logsCost=gb=>Math.max(0,gb-t.logs_free)*t.cw_logs;   // logs_free: GB gratis al mes (Google 50 por proyecto, Azure 5; AWS 0 porque no se modela)
  // B
  const bp={servidores_ec2:napp*t.ec2_t3l*H,discos_ebs:napp*g.ebs_app_gb*t.ebs_gp3,ip_publica_servidores:napp*t.ipv4*H,base_rds:rdsn*t.rds_single*H,
   almacenamiento_rds:(o.data_gb+rdsn*g.rds_os_gb)*t.rds_gp3_s,balanceador_alb:albFix,balanceador_lcu:albLcu,ip_publica_alb:albIp,
-  transferencia_salida:dtoCost,logs_cloudwatch:(napp+rdsn)*g.logs_gb_server*t.cw_logs,...common};
+  transferencia_salida:dtoCost,logs_cloudwatch:logsCost((napp+rdsn)*g.logs_gb_server),...common};
  o.B_parts=bp; o.B=Object.values(bp).reduce((a,b)=>a+b,0);
  // C
  const nappC=napp*2; const natFix=t.nat*H;
  const cp={servidores_ec2:nappC*t.ec2_t3l*H,discos_ebs:nappC*g.ebs_app_gb*t.ebs_gp3,base_rds_multi_az:rdsn*t.rds_multi*H,almacenamiento_rds:(o.data_gb+rdsn*g.rds_os_gb)*t.rds_gp3_m,
   balanceador_alb:albFix,balanceador_lcu:albLcu,ip_publica_alb:albIp,nat_hora:natFix,nat_datos:o.nat_gb*t.nat_gb,transferencia_salida:dtoCost,
-  entre_zonas:N*intPerClient*g.interaz_share*t.inter_az*2,logs_cloudwatch:(nappC+rdsn*2)*g.logs_gb_server*t.cw_logs,...common};
+  entre_zonas:N*intPerClient*g.interaz_share*t.inter_az*2,logs_cloudwatch:logsCost((nappC+rdsn*2)*g.logs_gb_server),...common};
  o.C_parts=cp; o.C=Object.values(cp).reduce((a,b)=>a+b,0);
  // D: Fargate
- const fgI=fargateMonth(s,'inst'), fgH=fargateMonth(s,'hub'); const ntask=N*fargateTasks(s,'inst')+fargateTasks(s,'hub');
+ const fgI=fargateMonth(s,'inst',t), fgH=fargateMonth(s,'hub',t); const ntask=N*fargateTasks(s,'inst')+fargateTasks(s,'hub');
  o.D_fg_inst=fgI; o.D_fg_hub=fgH;
  const dp={contenedores_fargate_clientes:N*fgI,contenedores_fargate_hub:fgH,base_rds:rdsn*t.rds_single*H,almacenamiento_rds:(o.data_gb+rdsn*g.rds_os_gb)*t.rds_gp3_s,
   balanceador_alb:albFix,balanceador_lcu:albLcu,ip_publica_alb:albIp,nat_hora:natFix,nat_datos:o.nat_gb*t.nat_gb,transferencia_salida:dtoCost,
-  logs_cloudwatch:ntask*g.logs_gb_task*t.cw_logs,...common};
+  logs_cloudwatch:logsCost(ntask*g.logs_gb_task),...common};
  o.D_parts=dp; o.D=Object.values(dp).reduce((a,b)=>a+b,0);
  o.infra=[0,o.A,o.B,o.C,o.D][arch];
  o.infra_parts=[null,o.A_parts,o.B_parts,o.C_parts,o.D_parts][arch];

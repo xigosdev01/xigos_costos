@@ -18,6 +18,7 @@ Estudio de costos de **XiGOS** (plataforma de monitoreo de flotas/rutas de Forto
 | `08-proyecciones-y-rentabilidad.md` | Proyecciones por perfil y precio mínimo por cliente |
 | `09-optimizacion-de-costos.md` | Plan de ahorro (multiempresa, clústeres de BD compartidos, etc.) |
 | `10-supuestos-y-datos-pendientes.md` | Lo verificado, lo no verificado y supuestos del autor |
+| `13-comparativa-nubes-aws-gcp-azure.md` | Precios verificados de Google Cloud y Azure (São Paulo), SLA, regiones, pros/contras y plan para agregarlos a la calculadora (2026-11-10) |
 | `11-modelo-financiero.xlsx` | Modelo Excel editable con fórmulas |
 | `12-resumen-auditoria.pdf` | Resumen en PDF |
 
@@ -30,6 +31,8 @@ Los `.md` son el estudio original (cifras fijas al 2026-11-06). La calculadora e
 - **worker** = contenedor (programa de segundo plano) de cada instancia; **no es una persona**.
 - Tamaño de zona (celda) por proveedor, en grados: TomTom 0,75°, HERE 0,75°, clima 0,5° (referencia histórica 0,25°; 1° ≈ 111,2 km). Tope: TomTom 10.000 km² por petición (oficial), HERE 1° (referencia no oficial de sus SDK), ambos con margen de seguridad del 90 %; `calc` nunca supera el tope. `ncap`=450 está medido en celdas de 0,25° y se reescala solo.
 - TomTom y HERE siempre están: uno principal (100 % de consultas) y otro respaldo (`backup_pct` %).
+- **TRM y euro:** botón «Actualizar TRM y euro de hoy» en Configuración → Supuestos (`updateFx` en `js/ui.js`): consulta datos.gov.co (TRM vigente hoy) y el BCE (CSV; respaldo Frankfurter) desde el navegador y guarda las fechas en `S.ui.fx_trm_date` / `fx_eur_date`. Los `.md` del estudio conservan la TRM del 2026-11-06.
+- **Nubes** (`S.ui.cloud`: `aws` | `gcp` | `azure`; **botón flotante «Nube»** a la derecha, `renderFab`/`setCloud` en `js/ui.js`, con el costo de cada nube para el escenario actual): las mismas 4 formas A/B/C/D en cada una (equivalencias en `js/clouds.js` y doc 13). Google Cloud y Azure (consultados 2026-11-10) NO tienen un paquete como Lightsail: su forma A suma máquina + disco + IP + transferencia. Hoy ninguna nube tiene precios de infraestructura pendientes (Google se leyó de sus páginas oficiales con región São Paulo, 2026-11-10; las páginas se dibujan con JavaScript: hay que abrirlas con un navegador y elegir la región con un clic real). Si en `js/clouds.js` una nube lista algo en `pending`, ese valor cuenta como 0 (**no es gratis**) y la pantalla lo avisa: no inventar cifras. Menor confianza y pendientes: doc 13 §6. Si se agrega una tarifa nueva, ponerla en `DEF.t` y en cada `DEF.tc.<nube>`.
 - Alojamientos AWS: **A** Lightsail (todo en un servidor, BD en contenedor, la más económica, sin alta disponibilidad) · **B** EC2 + RDS + ALB · **C** B en 2 zonas con RDS Multi-AZ y NAT · **D** ECS Fargate + RDS.
 - Recomendación del estudio: empezar con **A** (Lightsail 4–8 GB, US$ 23.54–43.16/mes) con respaldos a S3; pasar a B/C/D por requisito de disponibilidad/SLA o al pasar de ~20 instancias, midiendo antes la RAM real.
 - Contexto de arquitectura: antes Erick cotizaba Supabase + n8n + AWS solo para el worker; ahora todo corre desde AWS. Esta calculadora ya no incluye esos proveedores de Erick; no hay que mencionarlos ni marcar los proveedores actuales como «heredados».
@@ -39,7 +42,8 @@ Los `.md` son el estudio original (cifras fijas al 2026-11-06). La calculadora e
 
 | Archivo | Qué contiene |
 |---|---|
-| `js/model.js` | `DEF` (valores por defecto), tarifas por tramos y `calc(N, pi, s, opt)`. Sin DOM: función pura que usan todas las salidas. |
+| `js/model.js` | `DEF` (valores por defecto; `DEF.t` = tarifas AWS, `DEF.tc` = tarifas Google Cloud y Azure), tarifas por tramos y `calc(N, pi, s, opt)` (`opt.cloud` fuerza una nube). `effT(s)` da las tarifas de la nube elegida. Sin DOM: función pura que usan todas las salidas. |
+| `js/clouds.js` | `CLOUDS` (nombres, etiquetas de las formas A/B/C/D, fuentes, PENDIENTES), `CL()`/`CLS()`, `syncCloud()` (copia los nombres a `ARCH`), `cloudNote()`, filas y confianza de tarifas por nube. Se carga después de `model.js`. |
 | `js/state.js` | Estado `S` en `localStorage` (`xigos-calc-v1`; `load()` mezcla lo guardado con `DEF`, así que campos nuevos aparecen solos), formato de números/moneda (`usd`, `cop`, `m`, `vf`) y ayudas de campos. |
 | `js/providers.js` | Fichas de proveedores (`PROVS`, `PROVS_OPT`, `PBY`) y `provCard`/`provReport`. |
 | `js/content.js` | Textos y tablas fijas: formas de alojar, glosario, supuestos (`SUPS`), operación por cliente (`PROFROWS`), pendientes. |
@@ -56,7 +60,7 @@ Los `.md` son el estudio original (cifras fijas al 2026-11-06). La calculadora e
 - Pestañas: 1 Resumen (`renderViz`), 2 Configuración (fichas `TILES` + ventanas `MODALS`), y el reporte imprimible (`buildReport`, solo lo marcado «En el reporte»).
 - Formato de números `es-CO`. La moneda activa es `S.ui.unit` (`usd`|`cop`) y debe afectar **toda** la calculadora.
 - La operación de un cliente (`S.p`) tiene 4 niveles: pequeña, mediana, grande y personalizada (índice 3, arranca como copia de la mediana); `PROF_NAMES`/`PROF_UP` en `state.js`. Todo código que recorra niveles debe usar los 4.
-- Al agregar un archivo nuevo, añadir su `<script>` en `index.html` en el orden correcto.
+- Al agregar un archivo nuevo, añadir su `<script>` en `index.html` en el orden correcto. Los `<script>` y el CSS llevan `?v=AAAAMMDDx`: **súbale la versión (en todos) cada vez que cambie un archivo**, o los celulares y navegadores siguen mostrando la copia vieja guardada en caché.
 ## Reglas de trabajo
 - Responder y escribir siempre en español claro, sin tecnicismos para el usuario final.
 - No inventar precios: lo desconocido se marca PENDIENTE (ver doc 10).

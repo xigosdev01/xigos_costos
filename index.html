@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Calculadora de costos XiGOS</title>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=20261110c">
 </head>
 <body>
 <div class="topbar"><!-- menú superior fijo: título + pestañas -->
@@ -29,29 +29,31 @@
 </div>
 </div><!-- /topbar -->
 <main><div id="guide" class="guide" hidden><b>👋 ¿Cómo usar esta calculadora?</b>
- <ol><li><b>Escenario:</b> escriba aquí abajo cuántos clientes quiere simular y elija su tamaño de uso.</li>
+ <ol><li><b>Escenario:</b> escriba aquí abajo cuántos clientes quiere simular y elija su tamaño de uso. Con el <b>botón flotante «Nube»</b> (a la derecha) cambia entre AWS, Google Cloud y Azure en cualquier momento y ve cuánto cuesta cada una.</li>
  <li><b>Pestaña 1 · Resumen:</b> vea cuánto cuesta al mes y las gráficas. Pase el cursor (o toque) sobre ellas para ver el detalle.</li>
  <li><b>Pestaña 2 · Configuración:</b> abra cada ficha para leer qué es cada proveedor y cambiar precios o supuestos. Marque «En el reporte» en lo que quiera que salga en el PDF.</li>
  <li><b>Al final del Resumen:</b> pulse <b>«Imprimir o guardar como PDF»</b>.</li></ol>
  <p class="small">Es una estimación: muchos valores son supuestos que usted puede cambiar. Lo que escriba se guarda solo en este navegador.</p>
  <button id="guide-close">Entendido, ocultar la guía</button></div>
 <div id="repctl"></div><div id="viz"></div><div id="rep"></div><div id="cfg"></div></main>
+<div id="cloudfab" class="noprint" role="group" aria-label="Elegir la nube"></div><!-- botón flotante para cambiar de nube desde cualquier parte -->
 <div id="tip" class="tip" hidden></div>
 <div id="modal" class="ov" hidden><div class="mdl" role="dialog" aria-modal="true"><div class="mh"><b id="mt"></b><button id="mx" title="Cerrar (Esc)">✕ Cerrar</button></div><div class="mb" id="mbody"></div></div></div>
 
 <!-- El código está dividido por secciones (carpeta js/). El orden importa: ui.js va al final porque arranca la página. -->
-<script src="js/model.js"></script>
-<script src="js/state.js"></script>
-<script src="js/providers.js"></script>
-<script src="js/content.js"></script>
-<script src="js/config.js"></script>
-<script src="js/devices.js"></script>
-<script src="js/modals.js"></script>
-<script src="js/report.js"></script>
-<script src="js/outputs.js"></script>
-<script src="js/charts.js"></script>
-<script src="js/views.js"></script>
-<script src="js/awsrank.js"></script>
-<script src="js/ui.js"></script>
+<script src="js/model.js?v=20261110c"></script>
+<script src="js/clouds.js?v=20261110c"></script>
+<script src="js/state.js?v=20261110c"></script>
+<script src="js/providers.js?v=20261110c"></script>
+<script src="js/content.js?v=20261110c"></script>
+<script src="js/config.js?v=20261110c"></script>
+<script src="js/devices.js?v=20261110c"></script>
+<script src="js/modals.js?v=20261110c"></script>
+<script src="js/report.js?v=20261110c"></script>
+<script src="js/outputs.js?v=20261110c"></script>
+<script src="js/charts.js?v=20261110c"></script>
+<script src="js/views.js?v=20261110c"></script>
+<script src="js/awsrank.js?v=20261110c"></script>
+<script src="js/ui.js?v=20261110c"></script>
 </body>
 </html>
