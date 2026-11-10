@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div class="topbar"><!-- menú superior fijo: título + pestañas -->
 <header>
  <div class="brand"><h1>Calculadora de costos XiGOS</h1><small>Cuánto cuesta mantener XiGOS, en dólares y en pesos · precios consultados el 6 de noviembre de 2026</small></div>
  <div class="btns noprint">
@@ -26,6 +27,7 @@
  <button data-tab="viz" class="on" role="tab"><b>1 · Resumen</b><span>Cifras y gráficas</span></button>
  <button data-tab="cfg" role="tab"><b>2 · Configuración</b><span>Precios y qué va al PDF</span></button>
 </div>
+</div><!-- /topbar -->
 <main><div id="guide" class="guide" hidden><b>👋 ¿Cómo usar esta calculadora?</b>
  <ol><li><b>Escenario:</b> escriba aquí abajo cuántos clientes quiere simular y elija su tamaño de uso.</li>
  <li><b>Pestaña 1 · Resumen:</b> vea cuánto cuesta al mes y las gráficas. Pase el cursor (o toque) sobre ellas para ver el detalle.</li>
@@ -37,6 +39,19 @@
 <div id="tip" class="tip" hidden></div>
 <div id="modal" class="ov" hidden><div class="mdl" role="dialog" aria-modal="true"><div class="mh"><b id="mt"></b><button id="mx" title="Cerrar (Esc)">✕ Cerrar</button></div><div class="mb" id="mbody"></div></div></div>
 
-<script src="app.js"></script>
+<!-- El código está dividido por secciones (carpeta js/). El orden importa: ui.js va al final porque arranca la página. -->
+<script src="js/model.js"></script>
+<script src="js/state.js"></script>
+<script src="js/providers.js"></script>
+<script src="js/content.js"></script>
+<script src="js/config.js"></script>
+<script src="js/devices.js"></script>
+<script src="js/modals.js"></script>
+<script src="js/report.js"></script>
+<script src="js/outputs.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/views.js"></script>
+<script src="js/awsrank.js"></script>
+<script src="js/ui.js"></script>
 </body>
 </html>
